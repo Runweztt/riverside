@@ -103,7 +103,7 @@ export default function Navbar() {
           {/* Mobile Menu Button - 44px touch target */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="lg:hidden relative z-50 w-11 h-11 flex items-center justify-center touch-target"
+            className="lg:hidden relative z-[1002] w-11 h-11 flex items-center justify-center touch-target"
             aria-label={isOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={isOpen}
           >
@@ -151,7 +151,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-modal-backdrop bg-secondary-950/60 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[1000] bg-secondary-950/60 backdrop-blur-sm lg:hidden"
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           />
@@ -166,7 +166,7 @@ export default function Navbar() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed top-0 right-0 bottom-0 z-modal w-80 max-w-[85vw] bg-surface shadow-2xl lg:hidden"
+            className="fixed top-0 right-0 bottom-0 z-[1001] w-80 max-w-[85vw] bg-surface shadow-2xl lg:hidden overflow-y-auto"
           >
             <div className="flex flex-col h-full pt-24 pb-8 px-6">
               {/* Nav Links */}

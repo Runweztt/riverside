@@ -298,6 +298,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-size-adjust: 100%;
+    overflow-x: hidden;
   }
 
   body {
@@ -307,6 +308,7 @@
     color: var(--color-text);
     background-color: var(--color-surface);
     margin: 0;
+    overflow-x: hidden;
   }
 
   /* Typography Base */
