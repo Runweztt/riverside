@@ -266,6 +266,17 @@
   font-weight: 400;
 }
 
+@media screen and (max-width: 768px) {
+  .hero-title {
+    font-size: 32px !important;
+  }
+
+}
+
+.font-w-400 {
+  font-weight: 400 !important;
+}
+
 .text-gradient-primary {
   text-shadow: none !important;
 }
@@ -558,10 +569,19 @@
 
 .hero-description {
   font-size: 16px;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.font-s-16px {
+  font-size: 16px !important;
 }
 
 .display-none {
   display: none;
+}
+
+.room-card-title {
+  font-size: 25px;
 }
 
 /* ============================================
