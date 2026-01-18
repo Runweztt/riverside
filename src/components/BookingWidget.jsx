@@ -13,7 +13,7 @@ export default function BookingWidget() {
   const [roomType, setRoomType] = useState('deluxe')
 
   return (
-    <section className="relative -mt-20 z-20 pb-10">
+    <section className="relative -mt-20 z-90">
       <div className="container-app">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

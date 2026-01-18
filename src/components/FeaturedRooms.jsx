@@ -57,7 +57,7 @@ const cardVariants = {
 
 export default function FeaturedRooms() {
   return (
-    <section className="section-lg bg-surface-dim">
+    <section className="section-lg bg-surface-dim -mt-12">
       <div className="container-app">
         {/* Header */}
         <motion.div
@@ -92,7 +92,7 @@ export default function FeaturedRooms() {
               key={room.id}
               variants={cardVariants}
               whileHover={{ y: -8 }}
-              className="group bg-surface overflow-hidden border border-border shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="group bg-surface -overflow-hidden border border-border shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
               {/* Image */}
               <div className="relative h-56 overflow-hidden">

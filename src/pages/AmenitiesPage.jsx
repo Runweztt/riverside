@@ -155,11 +155,11 @@ export default function AmenitiesPage() {
             <span className="text-primary-400 text-sm font-medium uppercase tracking-wider mb-4 block">
               World-Class Facilities
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-white mb-6">
+            <h1 className="text-4xl breadcrumb-title md:text-5xl lg:text-6xl font-display text-white mb-6">
               Premium <span className="text-gradient-gold">Amenities</span>
             </h1>
             <p className="text-secondary-300 text-lg leading-relaxed">
-              Every detail has been thoughtfully designed to elevate your stay. 
+              Every detail has been thoughtfully designed to elevate your stay.
               From wellness to dining, discover amenities that define luxury hospitality.
             </p>
           </motion.div>

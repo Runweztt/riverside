@@ -4,8 +4,12 @@
  * Mobile: Futuristic animated geometric background
  */
 
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect } from 'react'
 import hotelBuilding from '../assets/hotel-building.jpg'
+import hotelRoom from '../assets/hotel-room.jpg'
+
+const images = [hotelBuilding, hotelRoom]
 
 const textVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -31,43 +35,71 @@ const particles = Array.from({ length: 20 }, (_, i) => ({
 }))
 
 export default function Hero() {
-  return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-secondary-950">
-      {/* ============ DESKTOP BACKGROUND - Hotel Image ============ */}
-      <div className="absolute inset-0 overflow-hidden hidden md:block">
+  const [currentIndex, setCurrentIndex] = useState(0)
 
-        {/* Hotel Building Image - Ken Burns Animation */}
-        <motion.div
-          initial={{ scale: 1.2, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.5, ease: 'easeOut' }}
-          className="absolute inset-0"
-        >
-          <motion.img
-            src={hotelBuilding}
-            alt="Riverside Suites Hotel Building"
-            className="w-full h-full object-cover object-center"
-            animate={{
-              scale: [1, 1.1, 1.05, 1.1, 1],
-              x: [0, -20, 10, -10, 0],
-              y: [0, -10, 5, -5, 0],
-            }}
-            transition={{
-              duration: 25,
-              repeat: Infinity,
-              ease: 'easeInOut',
-              times: [0, 0.25, 0.5, 0.75, 1]
-            }}
-          />
-        </motion.div>
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length)
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [])
+
+  return (
+    <section className="relative h-[68vh] md:h-[78vh] flex items-center justify-center overflow-hidden bg-secondary-950">
+      {/* ============ DESKTOP BACKGROUND - Image Slider ============ */}
+      <div className="absolute inset-0 overflow-hidden hidden md:block">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ scale: 1.1, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: 'easeOut' }}
+            className="absolute inset-0"
+          >
+            <motion.img
+              src={images[currentIndex]}
+              alt={`Riverside Suites Background ${currentIndex + 1}`}
+              className="w-full h-full object-cover object-center"
+              animate={{
+                scale: [1, 1.05],
+                x: [0, -10],
+                y: [0, -5],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                repeatType: 'reverse',
+                ease: 'linear',
+              }}
+            />
+          </motion.div>
+        </AnimatePresence>
 
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-secondary-950/70 via-secondary-950/50 to-secondary-950/90" />
         <div className="absolute inset-0 bg-gradient-to-r from-secondary-950/60 via-transparent to-secondary-950/60" />
       </div>
 
-      {/* ============ MOBILE BACKGROUND - Futuristic Animated ============ */}
+      {/* ============ MOBILE BACKGROUND - Image Slider ============ */}
       <div className="absolute inset-0 overflow-hidden md:hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.8 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1 }}
+            className="absolute inset-0"
+          >
+            <img
+              src={images[currentIndex]}
+              alt="Background"
+              className="w-full h-full object-cover"
+            />
+          </motion.div>
+        </AnimatePresence>
+        <div className="absolute inset-0 bg-secondary-950/40 backdrop-blur-[2px]" />
         {/* Base Gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-secondary-950 via-secondary-900 to-secondary-950" />
 
@@ -195,19 +227,19 @@ export default function Hero() {
       <div className="container-app relative z-10 pt-24 pb-16 md:py-20">
         <div className="max-w-4xl mx-auto text-center px-4">
           {/* Badge */}
-          <motion.div
+          {/*<motion.div
             custom={0}
             variants={textVariants}
             initial="hidden"
             animate="visible"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-6 md:mb-8"
+            className=" inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-6 md:mb-8"
           >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
             </span>
             <span className="text-primary-300 text-sm font-medium">Welcome to Riverside Suites</span>
-          </motion.div>
+          </motion.div>*/}
 
           {/* Heading */}
           <motion.h1
@@ -238,7 +270,7 @@ export default function Hero() {
             variants={textVariants}
             initial="hidden"
             animate="visible"
-            className="text-base md:text-xl text-white/90 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md"
+            className="text-base hero-description md:text-xl text-white/90 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md"
           >
             Experience the future of hospitality at Riverside Suites.
             Premium accommodations and world-class amenities await.
@@ -256,7 +288,7 @@ export default function Hero() {
               href="#booking"
               whileHover={{ scale: 1.03, boxShadow: '0 0 30px rgba(4, 200, 176, 0.4)' }}
               whileTap={{ scale: 0.98 }}
-              className="btn btn-primary text-base px-6 md:px-8 py-3 md:py-4 touch-target"
+              className=" btn btn-primary text-base px-6 md:px-8 py-3 md:py-4 touch-target"
             >
               Book Your Stay
             </motion.a>
