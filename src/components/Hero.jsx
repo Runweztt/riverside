@@ -35,6 +35,7 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-secondary-950">
       {/* ============ DESKTOP BACKGROUND - Hotel Image ============ */}
       <div className="absolute inset-0 overflow-hidden hidden md:block">
+
         {/* Hotel Building Image - Ken Burns Animation */}
         <motion.div
           initial={{ scale: 1.2, opacity: 0 }}
@@ -46,14 +47,14 @@ export default function Hero() {
             src={hotelBuilding}
             alt="Riverside Suites Hotel Building"
             className="w-full h-full object-cover object-center"
-            animate={{ 
+            animate={{
               scale: [1, 1.1, 1.05, 1.1, 1],
               x: [0, -20, 10, -10, 0],
               y: [0, -10, 5, -5, 0],
             }}
-            transition={{ 
-              duration: 25, 
-              repeat: Infinity, 
+            transition={{
+              duration: 25,
+              repeat: Infinity,
               ease: 'easeInOut',
               times: [0, 0.25, 0.5, 0.75, 1]
             }}
@@ -205,7 +206,7 @@ export default function Hero() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
             </span>
-            <span className="text-primary-300 text-sm font-medium">Welcome to Najjerra's Finest</span>
+            <span className="text-primary-300 text-sm font-medium">Welcome to Riverside Suites</span>
           </motion.div>
 
           {/* Heading */}
@@ -214,11 +215,14 @@ export default function Hero() {
             variants={textVariants}
             initial="hidden"
             animate="visible"
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-display font-semibold text-white mb-4 md:mb-6 leading-[1.1] drop-shadow-lg"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl hero-title text-white mb-4 md:mb-6 leading-[1.1] drop-shadow-lg"
           >
-            Where{' '}
+            Luxury Living{' '}
+
+            <br />
+            Elegantly
             <span className="relative">
-              <span className="text-gradient-primary">Luxury</span>
+              <span className="text-gradient-primary"> Redefined</span>
               <motion.span
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
@@ -226,8 +230,6 @@ export default function Hero() {
                 className="absolute -bottom-1 md:-bottom-2 left-0 right-0 h-0.5 md:h-1 bg-gradient-to-r from-primary-400 to-primary-600 origin-left rounded-full"
               />
             </span>
-            <br />
-            Meets Tomorrow
           </motion.h1>
 
           {/* Subheading */}
@@ -238,7 +240,7 @@ export default function Hero() {
             animate="visible"
             className="text-base md:text-xl text-white/90 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed drop-shadow-md"
           >
-            Experience the future of hospitality at Riverside Suites. 
+            Experience the future of hospitality at Riverside Suites.
             Premium accommodations and world-class amenities await.
           </motion.p>
 
@@ -273,7 +275,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
-            className="mt-10 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6"
+            className="mt-10 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 hidden"
           >
             {[
               { value: '50+', label: 'Luxury Suites' },
@@ -281,8 +283,8 @@ export default function Hero() {
               { value: '24/7', label: 'Concierge' },
               { value: '5★', label: 'Experience' },
             ].map((stat, i) => (
-              <motion.div 
-                key={i} 
+              <motion.div
+                key={i}
                 className="text-center bg-white/5 backdrop-blur-sm rounded-xl py-3 md:py-4 px-2 border border-white/10"
                 whileHover={{ scale: 1.05, borderColor: 'rgba(4, 200, 176, 0.3)' }}
               >

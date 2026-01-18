@@ -20,10 +20,10 @@ export default function BookingWidget() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="bg-surface rounded-2xl shadow-2xl border border-border overflow-hidden"
+          className="bg-surface shadow-2xl border border-border overflow-hidden"
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-primary-500 to-primary-600 px-6 py-4">
+          <div className="bg-gradient-to-r from-primary-500 to-primary-600 px-6 py-4 hidden">
             <h3 className="text-white font-display text-lg font-medium">
               Book Your Stay
             </h3>
@@ -109,7 +109,7 @@ export default function BookingWidget() {
             </div>
 
             {/* Quick info */}
-            <div className="mt-4 pt-4 border-t border-border flex flex-wrap items-center gap-4 text-sm text-text-muted">
+            <div className="mt-4 pt-4 border-t border-border flex flex-wrap items-center gap-4 text-sm text-text-muted hidden">
               <span className="flex items-center gap-2">
                 <CheckIcon className="w-4 h-4 text-primary-500" />
                 Free cancellation

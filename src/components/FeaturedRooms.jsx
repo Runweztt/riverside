@@ -74,7 +74,7 @@ export default function FeaturedRooms() {
             Featured <span className="text-gradient-primary">Suites</span>
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">
-            Each suite is designed with futuristic elegance and equipped with cutting-edge amenities 
+            Each suite is designed with futuristic elegance and equipped with cutting-edge amenities
             for an unforgettable stay.
           </p>
         </motion.div>
@@ -92,7 +92,7 @@ export default function FeaturedRooms() {
               key={room.id}
               variants={cardVariants}
               whileHover={{ y: -8 }}
-              className="group bg-surface rounded-2xl overflow-hidden border border-border shadow-lg hover:shadow-xl transition-shadow duration-300"
+              className="group bg-surface overflow-hidden border border-border shadow-lg hover:shadow-xl transition-shadow duration-300"
             >
               {/* Image */}
               <div className="relative h-56 overflow-hidden">
@@ -102,7 +102,7 @@ export default function FeaturedRooms() {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-secondary-950/60 to-transparent" />
-                
+
                 {/* Price Badge */}
                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-1.5">
                   <span className="text-secondary-900 font-semibold">${room.price}</span>

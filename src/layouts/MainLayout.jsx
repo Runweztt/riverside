@@ -32,8 +32,8 @@ export default function MainLayout({ children, pageKey }) {
   return (
     <div className="min-h-screen flex flex-col bg-surface">
       {/* Skip to content for accessibility */}
-      <a 
-        href="#main-content" 
+      <a
+        href="#main-content"
         className="skip-to-content focus:left-0"
       >
         Skip to main content
@@ -51,7 +51,7 @@ export default function MainLayout({ children, pageKey }) {
           initial="initial"
           animate="enter"
           exit="exit"
-          className="flex-1 pt-16 md:pt-20"
+          className="flex-1"
         >
           {children}
         </motion.main>

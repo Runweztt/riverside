@@ -2,10 +2,10 @@
 
 /* ============================================
    RIVERSIDE SUITES DESIGN SYSTEM
-   Futuristic Hotel Brand | Najjerra
    ============================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* ============================================
    DESIGN TOKENS - @theme block
@@ -16,31 +16,31 @@
      Futuristic luxury with warm accents
      ---------------------------------------- */
 
-  /* Primary - Oceanic Teal (Serenity & Modern Luxury) */
-  --color-primary-50: #effefb;
-  --color-primary-100: #c7fff4;
-  --color-primary-200: #90ffea;
-  --color-primary-300: #51f7dd;
-  --color-primary-400: #1de4c9;
-  --color-primary-500: #04c8b0;
-  --color-primary-600: #00a191;
-  --color-primary-700: #058076;
-  --color-primary-800: #0a655f;
-  --color-primary-900: #0d534e;
-  --color-primary-950: #003332;
+  /* Primary - Luxe Gold (Elegance & Warmth) */
+  --color-primary-50: #fbf9f0;
+  --color-primary-100: #f4efd6;
+  --color-primary-200: #e8dbac;
+  --color-primary-300: #dac479;
+  --color-primary-400: #c9a94f;
+  --color-primary-500: #b9a13e;
+  --color-primary-600: #9e8432;
+  --color-primary-700: #7d662b;
+  --color-primary-800: #655328;
+  --color-primary-900: #574625;
+  --color-primary-950: #322812;
 
-  /* Secondary - Deep Space Navy (Trust & Sophistication) */
-  --color-secondary-50: #f4f6fb;
-  --color-secondary-100: #e8ecf6;
-  --color-secondary-200: #ccd7eb;
-  --color-secondary-300: #a0b5da;
-  --color-secondary-400: #6d8dc5;
-  --color-secondary-500: #4a6eaf;
-  --color-secondary-600: #385593;
-  --color-secondary-700: #2f4577;
-  --color-secondary-800: #2a3c64;
-  --color-secondary-900: #1a2540;
-  --color-secondary-950: #0d1220;
+  /* Secondary - Modern Grey (Balanced & Neutral) */
+  --color-secondary-50: #f8f8f8;
+  --color-secondary-100: #f1f1f2;
+  --color-secondary-200: #e2e2e4;
+  --color-secondary-300: #cdced1;
+  --color-secondary-400: #939599;
+  --color-secondary-500: #808285;
+  --color-secondary-600: #68696c;
+  --color-secondary-700: #545558;
+  --color-secondary-800: #464749;
+  --color-secondary-900: #3c3d3f;
+  --color-secondary-950: #252627;
 
   /* Accent - Warm Gold (Luxury & Warmth) */
   --color-accent-50: #fffbeb;
@@ -90,8 +90,8 @@
      TYPOGRAPHY SCALE
      Mobile-first sizing
      ---------------------------------------- */
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Playfair Display', ui-serif, Georgia, serif;
+  --font-sans: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Playfair Display', serif;
   --font-mono: ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
 
   /* Font Sizes - Mobile First */
@@ -220,10 +220,10 @@
   --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
 
-  /* Glow Effects - Futuristic */
-  --glow-primary: 0 0 20px rgb(4 200 176 / 0.3);
+  /* Glow Effects - Elegant Gold */
+  --glow-primary: 0 0 20px rgb(185 161 62 / 0.3);
   --glow-accent: 0 0 20px rgb(251 191 36 / 0.3);
-  --glow-soft: 0 0 40px rgb(4 200 176 / 0.15);
+  --glow-soft: 0 0 40px rgb(185 161 62 / 0.15);
 
   /* ----------------------------------------
      MOTION PRINCIPLES
@@ -254,32 +254,20 @@
   --z-tooltip: 700;
 }
 
-/* ============================================
-   DARK MODE TOKENS
-   ============================================ */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-surface: #0d1220;
-    --color-surface-dim: #1a2540;
-    --color-surface-elevated: #2a3c64;
-    --color-border: #2a3c64;
-    --color-border-strong: #385593;
-    --color-text: #f8fafc;
-    --color-text-secondary: #cbd5e1;
-    --color-text-muted: #64748b;
-  }
+/* Dark mode support removed */
+
+
+.hero-title {
+  font-size: 48px;
+  font-family: "Playfair Display", serif;
+  color: white;
+  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
-/* Dark mode class override */
-.dark {
-  --color-surface: #0d1220;
-  --color-surface-dim: #1a2540;
-  --color-surface-elevated: #2a3c64;
-  --color-border: #2a3c64;
-  --color-border-strong: #385593;
-  --color-text: #f8fafc;
-  --color-text-secondary: #cbd5e1;
-  --color-text-muted: #64748b;
+.text-gradient-primary {
+  text-shadow: none !important;
 }
 
 /* ============================================
@@ -459,16 +447,16 @@
 
   /* Glass Effect */
   .glass {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--color-border);
+    background: rgba(128, 130, 133, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .dark .glass,
   .glass-dark {
-    background: rgba(13, 18, 32, 0.8);
-    border: 1px solid rgba(42, 60, 100, 0.5);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--color-border);
   }
 
   /* Glow Effects */
@@ -601,8 +589,8 @@
   }
 
   .dark .badge {
-    background: rgba(4, 200, 176, 0.15);
-    color: var(--color-primary-400);
+    background: rgba(185, 161, 62, 0.15);
+    color: var(--color-primary-600);
   }
 }
 
@@ -731,7 +719,7 @@ img[loading="lazy"] {
 /* Improved focus ring for better visibility */
 .focus-ring:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px var(--color-primary-500), 0 0 0 5px rgba(4, 200, 176, 0.2);
+  box-shadow: 0 0 0 3px var(--color-primary-500), 0 0 0 5px rgba(185, 161, 62, 0.2);
 }
 
 /* Mobile tap highlight fix */
