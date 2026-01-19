@@ -4,6 +4,7 @@
  */
 
 import { motion } from 'framer-motion'
+import heroBg from '../assets/29.jpg'
 import MainLayout from '../layouts/MainLayout'
 
 const amenityCategories = [
@@ -140,10 +141,14 @@ export default function AmenitiesPage() {
   return (
     <MainLayout pageKey="amenities">
       {/* Hero */}
-      <section className="relative py-20 md:py-28 bg-gradient-to-br from-secondary-900 via-secondary-950 to-secondary-900 overflow-hidden">
+      <section className="relative py-20 md:py-28 bg-secondary-950 overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent-500/10 rounded-full blur-[100px]" />
+          <img
+            src={heroBg}
+            alt="Premium Amenities"
+            className="absolute inset-0 w-full h-full object-cover opacity-50"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-secondary-950/80 via-secondary-950/50 to-secondary-950" />
         </div>
         <div className="container-app relative">
           <motion.div
@@ -152,13 +157,13 @@ export default function AmenitiesPage() {
             transition={{ duration: 0.6 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="text-primary-400 text-sm font-medium uppercase tracking-wider mb-4 block">
+            <span className="text-primary-400 text-sm font-medium uppercase tracking-wider mb-4 block display-none">
               World-Class Facilities
             </span>
-            <h1 className="text-4xl breadcrumb-title md:text-5xl lg:text-6xl font-display text-white mb-6">
+            <h1 className="text-4xl breadcrumb-title md:text-5xl lg:text-5xl font-display text-white mb-6" style={{ paddingTop: '50px' }}>
               Premium <span className="text-gradient-gold">Amenities</span>
             </h1>
-            <p className="text-secondary-300 text-lg leading-relaxed">
+            <p className="text-secondary-300 text-lg leading-relaxed hero-description">
               Every detail has been thoughtfully designed to elevate your stay.
               From wellness to dining, discover amenities that define luxury hospitality.
             </p>

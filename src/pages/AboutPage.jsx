@@ -4,6 +4,8 @@
  */
 
 import { motion } from 'framer-motion'
+import heroBg from '../assets/58.jpg'
+import aboutImage from '../assets/54.jpg'
 import MainLayout from '../layouts/MainLayout'
 
 const values = [
@@ -59,10 +61,14 @@ export default function AboutPage() {
   return (
     <MainLayout pageKey="about">
       {/* Hero */}
-      <section className="relative py-24 md:py-32 bg-gradient-to-br from-secondary-900 via-secondary-950 to-secondary-900 overflow-hidden">
+      <section className="relative py-24 md:py-20 bg-secondary-950 overflow-hidden">
         <div className="absolute inset-0">
-          <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-primary-500/10 rounded-full blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/3 w-72 h-72 bg-accent-500/10 rounded-full blur-[100px]" />
+          <img
+            src={heroBg}
+            alt="About Riverside Suites"
+            className="absolute inset-0 w-full h-full object-cover opacity-50"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-secondary-950/80 via-secondary-950/50 to-secondary-950" />
         </div>
         <div className="container-app relative">
           <motion.div
@@ -70,14 +76,14 @@ export default function AboutPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="text-primary-400 text-sm font-medium uppercase tracking-wider mb-4 block">
+            <span className="display-none text-primary-400 text-sm font-medium uppercase tracking-wider mb-4 block">
               Our Story
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-white mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-5xl font-w-400 text-white mb-6" style={{ paddingTop: '50px' }}>
               About <span className="text-gradient-primary">Riverside Suites</span>
             </h1>
-            <p className="text-secondary-300 text-lg leading-relaxed">
-              Where futuristic elegance meets the warmth of African hospitality. 
+            <p className="text-secondary-300 text-lg leading-relaxed hero-description">
+              Where futuristic elegance meets the warmth of African hospitality.
               Discover the vision behind Najjerra's most iconic hotel.
             </p>
           </motion.div>
@@ -89,7 +95,7 @@ export default function AboutPage() {
         <div className="container-app">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 50, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
             >
@@ -101,33 +107,33 @@ export default function AboutPage() {
               </h2>
               <div className="space-y-4 text-text-secondary leading-relaxed">
                 <p>
-                  Riverside Suites was born from a dream to redefine luxury hospitality in East Africa. 
-                  Founded in 2018 by a collective of visionary architects, hoteliers, and local entrepreneurs, 
-                  our mission was clear: create a space where cutting-edge design harmonizes with the soul 
+                  Riverside Suites was born from a dream to redefine luxury hospitality in East Africa.
+                  Founded in 2018 by a collective of visionary architects, hoteliers, and local entrepreneurs,
+                  our mission was clear: create a space where cutting-edge design harmonizes with the soul
                   of Ugandan warmth.
                 </p>
                 <p>
                   Nestled along the serene banks of Najjerra, our property rises as a beacon of innovation—
-                  a testament to what's possible when you blend international excellence with local heart. 
-                  Every curve, every light, every detail was carefully considered to transport our guests 
+                  a testament to what's possible when you blend international excellence with local heart.
+                  Every curve, every light, every detail was carefully considered to transport our guests
                   into the future while keeping them grounded in comfort.
                 </p>
                 <p>
-                  Today, Riverside Suites stands as more than a hotel. It's a destination, a landmark, 
+                  Today, Riverside Suites stands as more than a hotel. It's a destination, a landmark,
                   and a promise—that extraordinary experiences are not just for tomorrow, but for today.
                 </p>
               </div>
             </motion.div>
-            
+
             <motion.div
-              initial={{ opacity: 0, x: 30 }}
+              initial={{ opacity: 50, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               className="relative"
             >
               <div className="relative rounded-2xl overflow-hidden">
                 <img
-                  src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80"
+                  src={aboutImage}
                   alt="Riverside Suites exterior"
                   className="w-full aspect-[4/3] object-cover"
                 />
@@ -183,7 +189,7 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="section-lg bg-surface">
+      <section className="section-lg bg-surface display-none">
         <div className="container-app">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -231,7 +237,7 @@ export default function AboutPage() {
       </section>
 
       {/* Philosophy */}
-      <section className="section-lg bg-gradient-to-br from-secondary-900 via-secondary-950 to-secondary-900 text-white">
+      <section className="section-lg bg-gradient-to-br from-secondary-900 via-secondary-950 to-secondary-900 text-white display-none">
         <div className="container-app">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
@@ -247,8 +253,8 @@ export default function AboutPage() {
                 <span className="text-gradient-gold">feeling we create.</span>"
               </h2>
               <p className="text-secondary-300 text-lg leading-relaxed max-w-2xl mx-auto">
-                At Riverside Suites, we believe that true luxury lies in the details—the smile at check-in, 
-                the perfectly turned-down bed, the anticipation of your needs before you voice them. 
+                At Riverside Suites, we believe that true luxury lies in the details—the smile at check-in,
+                the perfectly turned-down bed, the anticipation of your needs before you voice them.
                 We don't just host guests; we craft unforgettable moments.
               </p>
             </motion.div>
@@ -257,7 +263,7 @@ export default function AboutPage() {
       </section>
 
       {/* Location Advantage */}
-      <section className="section-lg bg-surface">
+      <section className="section-lg bg-surface display-none">
         <div className="container-app">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -273,10 +279,10 @@ export default function AboutPage() {
                 The Heart of <span className="text-gradient-primary">Najjerra</span>
               </h2>
               <p className="text-text-secondary leading-relaxed mb-6">
-                Strategically positioned in the vibrant Najjerra district, Riverside Suites offers 
-                the perfect balance of accessibility and tranquility. With the city's business 
-                centers, cultural attractions, and entertainment hubs just minutes away, 
-                you're always connected—yet our riverside setting provides a peaceful retreat 
+                Strategically positioned in the vibrant Najjerra district, Riverside Suites offers
+                the perfect balance of accessibility and tranquility. With the city's business
+                centers, cultural attractions, and entertainment hubs just minutes away,
+                you're always connected—yet our riverside setting provides a peaceful retreat
                 from the urban buzz.
               </p>
               <div className="grid sm:grid-cols-2 gap-4">
@@ -298,7 +304,7 @@ export default function AboutPage() {
                 </div>
               </div>
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -330,7 +336,7 @@ export default function AboutPage() {
       </section>
 
       {/* Team */}
-      <section className="section-lg bg-surface-dim">
+      <section className="section-lg bg-surface-dim display-none">
         <div className="container-app">
           <motion.div
             initial={{ opacity: 0, y: 20 }}

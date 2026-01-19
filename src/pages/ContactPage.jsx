@@ -5,6 +5,7 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import heroBg from '../assets/54.jpg'
 import MainLayout from '../layouts/MainLayout'
 
 const initialFormState = {
@@ -32,27 +33,27 @@ export default function ContactPage() {
 
   const validateForm = () => {
     const newErrors = {}
-    
+
     if (!form.name.trim()) {
       newErrors.name = 'Name is required'
     }
-    
+
     if (!form.email.trim()) {
       newErrors.email = 'Email is required'
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
       newErrors.email = 'Please enter a valid email'
     }
-    
+
     if (!form.subject) {
       newErrors.subject = 'Please select a subject'
     }
-    
+
     if (!form.message.trim()) {
       newErrors.message = 'Message is required'
     } else if (form.message.trim().length < 10) {
       newErrors.message = 'Message must be at least 10 characters'
     }
-    
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
@@ -60,7 +61,7 @@ export default function ContactPage() {
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
-    
+
     // Clear error on change
     if (errors[name]) {
       setErrors((prev) => {
@@ -73,14 +74,14 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     if (!validateForm()) return
-    
+
     setIsSubmitting(true)
-    
+
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500))
-    
+
     setIsSubmitting(false)
     setIsSubmitted(true)
     setForm(initialFormState)
@@ -93,9 +94,15 @@ export default function ContactPage() {
   return (
     <MainLayout pageKey="contact">
       {/* Hero */}
-      <section className="relative py-20 bg-gradient-to-br from-secondary-900 via-secondary-950 to-secondary-900 overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-primary-500/10 rounded-full blur-[100px]" />
+      <section className="relative py-20 bg-secondary-950" style={{ paddingTop: '130px' }}>
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src={heroBg}
+            alt="Contact Us"
+            className="absolute inset-0 w-full h-full object-cover opacity-50"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-secondary-950/80 via-secondary-950/50 to-secondary-950" />
+          <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-primary-500/20 rounded-full blur-[100px]" />
         </div>
         <div className="container-app relative">
           <motion.div
@@ -103,14 +110,14 @@ export default function ContactPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="text-primary-400 text-sm font-medium uppercase tracking-wider mb-4 block">
+            <span className="text-primary-400 text-sm font-medium uppercase tracking-wider mb-4 block display-none">
               Get in Touch
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-white mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-w-400 text-white mb-6" style={{ paddingTop: '30px' }}>
               Contact <span className="text-gradient-primary">Us</span>
             </h1>
-            <p className="text-secondary-300 text-lg">
-              We'd love to hear from you. Reach out for reservations, inquiries, 
+            <p className="text-secondary-300 text-lg hero-description">
+              We'd love to hear from you. Reach out for reservations, inquiries,
               or just to say hello.
             </p>
           </motion.div>
@@ -145,7 +152,7 @@ export default function ContactPage() {
                         Message Sent!
                       </h2>
                       <p className="text-text-secondary mb-6 max-w-md mx-auto">
-                        Thank you for reaching out. Our team will get back to you 
+                        Thank you for reaching out. Our team will get back to you
                         within 24 hours.
                       </p>
                       <motion.button
@@ -342,8 +349,8 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="font-medium">Phone</p>
-                      <a 
-                        href="tel:+256700000000" 
+                      <a
+                        href="tel:+256700000000"
                         className="text-text-secondary text-sm hover:text-primary-500 transition-colors"
                       >
                         +256 700 000 000
@@ -358,8 +365,8 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="font-medium">Email</p>
-                      <a 
-                        href="mailto:info@riversidesuites.com" 
+                      <a
+                        href="mailto:info@riversidesuites.com"
                         className="text-text-secondary text-sm hover:text-primary-500 transition-colors"
                       >
                         info@riversidesuites.com
@@ -464,35 +471,23 @@ export default function ContactPage() {
             viewport={{ once: true }}
             className="relative rounded-2xl overflow-hidden bg-secondary-100 aspect-[21/9]"
           >
-            {/* Stylized map placeholder */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="relative">
-                <div className="absolute inset-0 w-24 h-24 -m-6 bg-primary-500/20 rounded-full animate-ping" />
-                <div className="w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center shadow-lg relative z-10">
-                  <LocationIcon className="w-6 h-6 text-white" />
-                </div>
-              </div>
-            </div>
-            
-            {/* Grid pattern */}
-            <div className="absolute inset-0 opacity-20">
-              <svg className="w-full h-full" viewBox="0 0 800 300">
-                <path d="M0 150 L800 150" stroke="#94a3b8" strokeWidth="2" />
-                <path d="M400 0 L400 300" stroke="#94a3b8" strokeWidth="2" />
-                <path d="M200 0 L200 300" stroke="#e2e8f0" strokeWidth="1" />
-                <path d="M600 0 L600 300" stroke="#e2e8f0" strokeWidth="1" />
-                <path d="M0 75 L800 75" stroke="#e2e8f0" strokeWidth="1" />
-                <path d="M0 225 L800 225" stroke="#e2e8f0" strokeWidth="1" />
-                <circle cx="400" cy="150" r="60" fill="none" stroke="#cbd5e1" strokeWidth="1" />
-                <circle cx="400" cy="150" r="100" fill="none" stroke="#e2e8f0" strokeWidth="1" />
-              </svg>
-            </div>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.7230853996475!2d32.62295317036134!3d0.39587684302205245!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177db178ee86667f%3A0x74100c8ba6e0dc56!2sRiverside%20Suites!5e0!3m2!1sen!2srw!4v1768822656767!5m2!1sen!2srw"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="absolute inset-0 w-full h-full"
+              title="Google Map Location"
+            />
 
             {/* Overlay card */}
-            <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg max-w-xs">
+            <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-lg max-w-xs hidden sm:block">
               <p className="font-semibold">Riverside Suites</p>
               <p className="text-text-secondary text-sm">
-                Plot 42, Riverside Drive, Najjerra
+                Riverside Close, Buwate, Uganda
               </p>
               <a
                 href="https://maps.google.com"

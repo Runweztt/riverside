@@ -4,20 +4,14 @@
  */
 
 import { motion } from 'framer-motion'
-import logoSvg from '../assets/logo.svg'
+import logoSvg from '../assets/logo-mobile.png'
 
 const footerLinks = {
   explore: [
     { label: 'Rooms & Suites', href: '#rooms' },
-    { label: 'Amenities', href: '#amenities' },
-    { label: 'Dining', href: '#dining' },
-    { label: 'Gallery', href: '#gallery' },
-  ],
-  info: [
-    { label: 'About Us', href: '#about' },
-    { label: 'Contact', href: '#contact' },
-    { label: 'Careers', href: '#careers' },
-    { label: 'Privacy Policy', href: '#privacy' },
+    { label: 'Why Riverside Suites?', href: '#aboout' },
+    { label: 'Our Amenities', href: '#amenites' },
+    { label: 'Riverside Hotel Gallery', href: '#gallery' },
   ],
 }
 
@@ -60,44 +54,7 @@ export default function Footer() {
     <footer className="bg-secondary-950 text-white">
       {/* Main Footer */}
       <div className="container-app py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
-          {/* Brand Column */}
-          <div className="lg:col-span-1">
-            <motion.a 
-              href="/"
-              whileHover={{ scale: 1.02 }}
-              className="inline-block mb-6"
-            >
-              <img 
-                src={logoSvg} 
-                alt="Riverside Suites" 
-                className="h-10 brightness-0 invert"
-              />
-            </motion.a>
-            <p className="text-secondary-400 text-sm leading-relaxed mb-6">
-              Experience futuristic luxury at Najjerra's premier destination. 
-              Where modern design meets timeless hospitality.
-            </p>
-            
-            {/* Social Links - 44px touch targets */}
-            <div className="flex items-center gap-3">
-              {socialLinks.map((social) => (
-                <motion.a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-11 h-11 flex items-center justify-center rounded-full bg-secondary-800 text-secondary-400 hover:bg-primary-500 hover:text-white transition-colors touch-target"
-                  aria-label={`Follow us on ${social.label}`}
-                >
-                  <social.icon className="w-5 h-5" />
-                </motion.a>
-              ))}
-            </div>
-          </div>
-
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 lg:gap-8">
           {/* Explore Links */}
           <div>
             <h4 className="text-sm font-semibold uppercase tracking-wider text-secondary-300 mb-4">
@@ -117,44 +74,62 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Info Links */}
-          <div>
-            <h4 className="text-sm font-semibold uppercase tracking-wider text-secondary-300 mb-4">
-              Information
-            </h4>
-            <ul className="space-y-3">
-              {footerLinks.info.map((link) => (
-                <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="text-secondary-400 hover:text-primary-400 transition-colors text-sm"
-                  >
-                    {link.label}
-                  </a>
-                </li>
+          {/* Brand Column */}
+          <div className="flex flex-col lg:items-center lg:text-center">
+            <motion.a
+              href="/"
+              whileHover={{ scale: 1.02 }}
+              className="inline-block mb-6"
+            >
+              <img
+                src={logoSvg}
+                alt="Riverside Suites"
+                className="h-15 brightness-0 invert"
+              />
+            </motion.a>
+            <p className="text-secondary-400 text-sm leading-relaxed mb-6">
+              Experience futuristic luxury at Najjerra's premier destination.
+              Where modern design meets timeless hospitality.
+            </p>
+
+            {/* Social Links - 44px touch targets */}
+            <div className="flex items-center justify-center gap-3">
+              {socialLinks.map((social) => (
+                <motion.a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-11 h-11 flex items-center justify-center rounded-full bg-secondary-800 text-secondary-400 hover:bg-primary-500 hover:text-white transition-colors touch-target"
+                  aria-label={`Follow us on ${social.label}`}
+                >
+                  <social.icon className="w-5 h-5" />
+                </motion.a>
               ))}
-            </ul>
+            </div>
           </div>
 
           {/* Contact Info */}
-          <div>
+          <div className="lg:text-right">
             <h4 className="text-sm font-semibold uppercase tracking-wider text-secondary-300 mb-4">
               Contact
             </h4>
             <address className="not-italic space-y-3 text-sm text-secondary-400">
-              <p>Riverside Drive, Najjerra</p>
-              <p>Kampala, Uganda</p>
-              <a 
-                href="tel:+256700000000" 
+              <p>9JWF+7M6 Riverside close, </p>
+              <p>Buwate, Uganda</p>
+              <a
+                href="tel:+256700000000"
                 className="block hover:text-primary-400 transition-colors"
               >
                 +256 700 000 000
               </a>
-              <a 
-                href="mailto:hello@riversidesuites.com" 
+              <a
+                href="mailto:hello@riversidesuites.com"
                 className="block hover:text-primary-400 transition-colors"
               >
-                hello@riversidesuites.com
+                info@theriversidesuites.com
               </a>
             </address>
           </div>
@@ -163,21 +138,10 @@ export default function Footer() {
 
       {/* Bottom Bar */}
       <div className="border-t border-secondary-800">
-        <div className="container-app py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="container-app py-6 flex flex-col sm:flex-row justify-center items-center gap-4">
           <p className="text-secondary-500 text-sm text-center sm:text-left">
             © {currentYear} Riverside Suites. All rights reserved.
           </p>
-          <div className="flex items-center gap-1 text-secondary-500 text-sm">
-            <span>Crafted with</span>
-            <motion.span
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ repeat: Infinity, duration: 1.5 }}
-              className="text-primary-500"
-            >
-              ♥
-            </motion.span>
-            <span>in Najjerra</span>
-          </div>
         </div>
       </div>
     </footer>

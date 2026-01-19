@@ -131,7 +131,7 @@ export default function GalleryPage() {
   return (
     <MainLayout pageKey="gallery">
       {/* Hero */}
-      <section className="relative py-20 bg-gradient-to-br from-secondary-900 via-secondary-950 to-secondary-900 overflow-hidden">
+      <section className="relative py-20 bg-gradient-to-br from-secondary-900 via-secondary-950 to-secondary-900 overflow-hidden" style={{ paddingTop: '110px' }}>
         <div className="absolute inset-0">
           <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-primary-500/10 rounded-full blur-[100px]" />
         </div>
@@ -141,10 +141,10 @@ export default function GalleryPage() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-3xl mx-auto"
           >
-            <span className="text-primary-400 text-sm font-medium uppercase tracking-wider mb-4 block">
+            <span className="text-primary-400 text-sm font-medium uppercase tracking-wider mb-4 block display-none">
               Visual Journey
             </span>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-white mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-5xl font-w-400 text-white mb-6" style={{ paddingTop: '50px' }}>
               Our <span className="text-gradient-primary">Gallery</span>
             </h1>
             <p className="text-secondary-300 text-lg">
@@ -162,11 +162,10 @@ export default function GalleryPage() {
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
-                  activeCategory === cat.id
-                    ? 'bg-primary-500 text-white'
-                    : 'bg-surface-dim text-text-secondary hover:bg-primary-50 hover:text-primary-600'
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${activeCategory === cat.id
+                  ? 'bg-primary-500 text-white'
+                  : 'bg-surface-dim text-text-secondary hover:bg-primary-50 hover:text-primary-600'
+                  }`}
               >
                 {cat.label}
               </button>
@@ -196,11 +195,10 @@ export default function GalleryPage() {
                   <motion.div
                     whileHover={{ scale: 1.02 }}
                     onClick={() => openLightbox(index)}
-                    className={`relative overflow-hidden rounded-xl cursor-pointer group ${
-                      image.span === 'tall' ? 'aspect-[3/4]' : 
-                      image.span === 'wide' ? 'aspect-[4/3]' : 
-                      'aspect-square'
-                    }`}
+                    className={`relative overflow-hidden rounded-xl cursor-pointer group ${image.span === 'tall' ? 'aspect-[3/4]' :
+                      image.span === 'wide' ? 'aspect-[4/3]' :
+                        'aspect-square'
+                      }`}
                   >
                     <img
                       src={image.src}
