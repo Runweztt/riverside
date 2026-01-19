@@ -4,6 +4,7 @@
  */
 
 import { AnimatePresence, motion } from 'framer-motion'
+import heroBg from '../assets/52.jpg'
 import MainLayout from '../layouts/MainLayout'
 import { BookingProvider, useBooking } from '../context/BookingContext'
 import DateGuestStep from '../components/booking/DateGuestStep'
@@ -21,7 +22,7 @@ const steps = [
 
 function BookingFlow({ onBack }) {
   const { state, actions, computed } = useBooking()
-  
+
   const handleContinue = async () => {
     if (state.currentStep === 4 && state.status !== 'confirmed') {
       await actions.confirmBooking()
@@ -29,7 +30,7 @@ function BookingFlow({ onBack }) {
       actions.nextStep()
     }
   }
-  
+
   const handleBack = () => {
     if (state.currentStep === 1) {
       onBack?.()
@@ -37,9 +38,9 @@ function BookingFlow({ onBack }) {
       actions.prevStep()
     }
   }
-  
+
   const canGoBack = state.currentStep > 1 && state.status !== 'confirmed'
-  
+
   // Render current step
   const renderStep = () => {
     switch (state.currentStep) {
@@ -55,21 +56,29 @@ function BookingFlow({ onBack }) {
         return null
     }
   }
-  
+
   return (
     <MainLayout pageKey="booking">
       {/* Header */}
-      <section className="bg-secondary-950 py-8">
-        <div className="container-app">
+      <section className="relative bg-secondary-950 py-8 overflow-hidden" style={{ paddingTop: '150px' }}>
+        <div className="absolute inset-0">
+          <img
+            src={heroBg}
+            alt="Book Your Stay"
+            className="absolute inset-0 w-full h-full object-cover opacity-50"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-secondary-950/80 via-secondary-950/50 to-secondary-950" />
+        </div>
+        <div className="container-app relative">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <h1 className="text-3xl md:text-4xl font-display text-white mb-2">
+            <h1 className="text-3xl md:text-4xl font-display text-white mb-2 text-center">
               {state.status === 'confirmed' ? 'Booking Complete' : 'Book Your Stay'}
             </h1>
-            <p className="text-secondary-300">
-              {state.status === 'confirmed' 
+            <p className="text-secondary-300 text-center">
+              {state.status === 'confirmed'
                 ? 'Thank you for choosing Riverside Suites'
                 : 'Complete your reservation in just a few steps'
               }
@@ -77,7 +86,7 @@ function BookingFlow({ onBack }) {
           </motion.div>
         </div>
       </section>
-      
+
       {/* Progress Steps */}
       {state.status !== 'confirmed' && (
         <section className="bg-surface border-b border-border sticky top-16 md:top-20 z-20">
@@ -87,18 +96,17 @@ function BookingFlow({ onBack }) {
                 const isActive = step.id === state.currentStep
                 const isCompleted = step.id < state.currentStep
                 const isLast = index === steps.length - 1
-                
+
                 return (
                   <div key={step.id} className="flex items-center flex-1">
                     <div className="flex flex-col items-center">
                       <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-                          isActive
-                            ? 'bg-primary-500 text-white'
-                            : isCompleted
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${isActive
+                          ? 'bg-primary-500 text-white'
+                          : isCompleted
                             ? 'bg-primary-100 text-primary-600'
                             : 'bg-neutral-100 text-text-muted'
-                        }`}
+                          }`}
                       >
                         {isCompleted ? (
                           <CheckIcon className="w-4 h-4" />
@@ -106,18 +114,16 @@ function BookingFlow({ onBack }) {
                           step.id
                         )}
                       </div>
-                      <span className={`mt-1 text-xs hidden sm:block ${
-                        isActive ? 'text-primary-600 font-medium' : 'text-text-muted'
-                      }`}>
+                      <span className={`mt-1 text-xs hidden sm:block ${isActive ? 'text-primary-600 font-medium' : 'text-text-muted'
+                        }`}>
                         {step.shortTitle}
                       </span>
                     </div>
-                    
+
                     {!isLast && (
                       <div
-                        className={`flex-1 h-0.5 mx-2 transition-colors ${
-                          isCompleted ? 'bg-primary-200' : 'bg-neutral-200'
-                        }`}
+                        className={`flex-1 h-0.5 mx-2 transition-colors ${isCompleted ? 'bg-primary-200' : 'bg-neutral-200'
+                          }`}
                       />
                     )}
                   </div>
@@ -127,7 +133,7 @@ function BookingFlow({ onBack }) {
           </div>
         </section>
       )}
-      
+
       {/* Content */}
       <section className="section-md bg-surface-dim">
         <div className="container-app">
@@ -138,7 +144,7 @@ function BookingFlow({ onBack }) {
                 <AnimatePresence mode="wait">
                   {renderStep()}
                 </AnimatePresence>
-                
+
                 {/* Navigation */}
                 {state.status !== 'confirmed' && (
                   <div className="flex items-center justify-between mt-8 pt-6 border-t border-border">
@@ -155,7 +161,7 @@ function BookingFlow({ onBack }) {
                     ) : (
                       <div />
                     )}
-                    
+
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
@@ -179,7 +185,7 @@ function BookingFlow({ onBack }) {
                     </motion.button>
                   </div>
                 )}
-                
+
                 {/* After confirmation - New booking button */}
                 {state.status === 'confirmed' && (
                   <div className="mt-8 pt-6 border-t border-border text-center">
@@ -198,11 +204,11 @@ function BookingFlow({ onBack }) {
                 )}
               </div>
             </div>
-            
+
             {/* Sidebar Summary */}
             <div className="lg:col-span-1">
               <div className="lg:sticky lg:top-40">
-                <BookingSummary 
+                <BookingSummary
                   onConfirm={handleContinue}
                   showConfirmButton={false}
                 />

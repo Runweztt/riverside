@@ -5,6 +5,7 @@
 
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import heroBg from '../assets/19.jpg'
 import MainLayout from '../layouts/MainLayout'
 import RoomCard from '../components/RoomCard'
 import { rooms, roomCategories, sortRooms, getRoomsByCategory } from '../utils/roomsData'
@@ -27,19 +28,19 @@ export default function RoomsPage({ onNavigateToRoom }) {
   // Filter and sort rooms
   const filteredRooms = useMemo(() => {
     let result = getRoomsByCategory(activeCategory)
-    
+
     // Price filter
-    result = result.filter(room => 
+    result = result.filter(room =>
       room.price >= priceRange[0] && room.price <= priceRange[1]
     )
-    
+
     // Sort
     if (sortBy === 'featured') {
       result = [...result].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0))
     } else {
       result = sortRooms(result, sortBy)
     }
-    
+
     return result
   }, [activeCategory, sortBy, priceRange])
 
@@ -52,9 +53,15 @@ export default function RoomsPage({ onNavigateToRoom }) {
   return (
     <MainLayout pageKey="rooms">
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-br from-secondary-900 via-secondary-950 to-secondary-900">
+      <section className="relative py-20 bg-secondary-950" style={{ paddingTop: '150px' }}>
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/3 left-1/3 w-80 h-80 bg-primary-500/10 rounded-full blur-[100px]" />
+          <img
+            src={heroBg}
+            alt="Luxury Rooms"
+            className="absolute inset-0 w-full h-full object-cover opacity-50"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-secondary-950/80 via-secondary-950/50 to-secondary-950" />
+          <div className="absolute top-1/3 left-1/3 w-80 h-80 bg-primary-500/20 rounded-full blur-[100px]" />
         </div>
         <div className="container-app relative">
           <motion.div
@@ -62,11 +69,11 @@ export default function RoomsPage({ onNavigateToRoom }) {
             animate={{ opacity: 1, y: 0 }}
             className="text-center max-w-2xl mx-auto"
           >
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display text-white mb-4">
+            <h1 className="text-4xl md:text-5xl lg:text-5xl font-w-400 text-white mb-4">
               Rooms & <span className="text-gradient-primary">Suites</span>
             </h1>
-            <p className="text-secondary-300 text-lg">
-              Discover our collection of meticulously designed accommodations, 
+            <p className="text-secondary-300 text-lg hero-description">
+              Discover our collection of meticulously designed accommodations,
               each offering a unique blend of comfort and futuristic luxury.
             </p>
           </motion.div>
@@ -83,11 +90,10 @@ export default function RoomsPage({ onNavigateToRoom }) {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
-                    activeCategory === cat.id
-                      ? 'bg-primary-500 text-white'
-                      : 'bg-surface-dim text-text-secondary hover:bg-primary-50 hover:text-primary-600'
-                  }`}
+                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${activeCategory === cat.id
+                    ? 'bg-primary-500 text-white'
+                    : 'bg-surface-dim text-text-secondary hover:bg-primary-50 hover:text-primary-600'
+                    }`}
                 >
                   {cat.label}
                 </button>
@@ -190,11 +196,10 @@ export default function RoomsPage({ onNavigateToRoom }) {
           {filteredRooms.length > 0 ? (
             <motion.div
               layout
-              className={`grid gap-6 ${
-                viewMode === 'grid'
-                  ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
-                  : 'grid-cols-1'
-              }`}
+              className={`grid gap-6 ${viewMode === 'grid'
+                ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'
+                : 'grid-cols-1'
+                }`}
             >
               <AnimatePresence mode="popLayout">
                 {filteredRooms.map((room) => (

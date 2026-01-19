@@ -5,7 +5,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import logoSvg from '../assets/logo.svg'
+import logoSvg from '../assets/logo.png'
 
 const navLinks = [
   { label: 'Home', href: '#home' },
@@ -47,60 +47,70 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: [0, 0, 0.2, 1] }}
-        className={`fixed top-0 inset-x-0 z-[999] transition-all duration-300 ${
-          isScrolled ? 'glass shadow-md' : 'bg-transparent'
-        }`}
+        className={`fixed top-0 inset-x-0 z-[999] transition-all duration-500 ${isScrolled ? 'bg-secondary-500/80 backdrop-blur-xl shadow-lg border-b border-white/10' : 'bg-transparent'
+          }`}
       >
-        <nav 
+        <nav
           className="container-app flex items-center justify-between h-16 md:h-20"
           role="navigation"
           aria-label="Main navigation"
         >
-          {/* Logo */}
-          <a 
-            href="#home" 
-            className="flex items-center z-10"
-            aria-label="Riverside Suites - Home"
-          >
-            <motion.img 
-              src={logoSvg} 
-              alt="Riverside Suites" 
-              className={`h-8 md:h-10 w-auto transition-all duration-300 ${
-                !isScrolled ? 'brightness-0 invert' : ''
-              }`}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-            />
-          </a>
+          {/* Desktop Navigation - Split Layout */}
+          <div className="hidden lg:grid grid-cols-3 items-center w-full gap-8">
+            {/* Left Nav */}
+            <div className="flex items-center justify-start gap-8">
+              {navLinks.slice(0, 4).map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className={`text-sm font-semibold tracking-wider uppercase transition-colors duration-200 hover:text-primary-500 ${isScrolled ? 'text-white' : 'text-white/90 hover:text-white'
+                    }`}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
-            {navLinks.map((link) => (
+            {/* Centered Logo */}
+            <div className="flex justify-center">
               <a
-                key={link.label}
-                href={link.href}
-                className={`text-sm font-medium transition-colors duration-200 hover:text-primary-500 ${
-                  isScrolled ? 'text-secondary-800' : 'text-white/90 hover:text-white'
-                }`}
+                href="#home"
+                className="flex items-center z-10"
+                aria-label="Riverside Suites - Home"
               >
-                {link.label}
+                <motion.img
+                  src={logoSvg}
+                  alt="Riverside Suites"
+                  className="h-16 md:h-24 w-auto drop-shadow-lg"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                />
               </a>
-            ))}
+            </div>
+
+            {/* Right Nav + CTA */}
+            <div className="flex items-center justify-end gap-8">
+              {navLinks.slice(4).map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className={`text-sm font-semibold tracking-wider uppercase transition-colors duration-200 hover:text-primary-500 ${isScrolled ? 'text-white' : 'text-white/90 hover:text-white'
+                    }`}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <motion.a
+                href="#booking"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`btn ${isScrolled ? 'btn-primary' : 'bg-white text-secondary-900 hover:bg-white/90'}`}
+              >
+                Book Now
+              </motion.a>
+            </div>
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden lg:block">
-            <motion.a
-              href="#booking"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="btn btn-primary"
-            >
-              Book Now
-            </motion.a>
-          </div>
-
-          {/* Mobile Menu Button - 44px touch target */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden relative z-[1002] w-11 h-11 flex items-center justify-center touch-target"
@@ -114,9 +124,8 @@ export default function Navbar() {
                   y: isOpen ? 8 : 0,
                 }}
                 transition={{ duration: 0.2 }}
-                className={`block h-0.5 rounded-full origin-center transition-colors ${
-                  isOpen || isScrolled ? 'bg-text' : 'bg-white'
-                }`}
+                className={`block h-0.5 rounded-full origin-center transition-colors ${isOpen ? 'bg-text' : (isScrolled ? 'bg-white' : 'bg-white')
+                  }`}
               />
               <motion.span
                 animate={{
@@ -124,9 +133,8 @@ export default function Navbar() {
                   scaleX: isOpen ? 0 : 1,
                 }}
                 transition={{ duration: 0.1 }}
-                className={`block h-0.5 rounded-full ${
-                  isOpen || isScrolled ? 'bg-text' : 'bg-white'
-                }`}
+                className={`block h-0.5 rounded-full ${isOpen ? 'bg-text' : (isScrolled ? 'bg-white' : 'bg-white')
+                  }`}
               />
               <motion.span
                 animate={{
@@ -134,12 +142,16 @@ export default function Navbar() {
                   y: isOpen ? -8 : 0,
                 }}
                 transition={{ duration: 0.2 }}
-                className={`block h-0.5 rounded-full origin-center transition-colors ${
-                  isOpen || isScrolled ? 'bg-text' : 'bg-white'
-                }`}
+                className={`block h-0.5 rounded-full origin-center transition-colors ${isOpen ? 'bg-text' : (isScrolled ? 'bg-white' : 'bg-white')
+                  }`}
               />
             </div>
           </button>
+
+          {/* Mobile Logo (Visible only on mobile) */}
+          <div className="flex lg:hidden flex-1 justify-center pr-11">
+            <img src={logoSvg} alt="Riverside Suites" className="h-10 w-auto" />
+          </div>
         </nav>
       </motion.header>
 
@@ -151,7 +163,7 @@ export default function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[1000] bg-secondary-950/60 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-[1000] bg-secondary-500/40 backdrop-blur-sm lg:hidden"
             onClick={() => setIsOpen(false)}
             aria-hidden="true"
           />
