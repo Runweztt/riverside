@@ -9,18 +9,20 @@ import BookingWidget from '../components/BookingWidget'
 import FeaturedRooms from '../components/FeaturedRooms'
 import Amenities from '../components/Amenities'
 import Testimonials from '../components/Testimonials'
-import Location from '../components/Location'
+import SpecialOffers from '../components/SpecialOffers'
 import CTASection from '../components/CTASection'
 
 export default function HomePage() {
   return (
     <MainLayout pageKey="home">
       <Hero />
-      <BookingWidget />
+      <div className="hidden md:block">
+        <BookingWidget />
+      </div>
       <FeaturedRooms />
       <Amenities />
+      <SpecialOffers />
       <Testimonials />
-      <Location />
       <CTASection />
     </MainLayout>
   )

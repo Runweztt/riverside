@@ -1,12 +1,12 @@
 /**
  * Room Details Page
- * Full room information with image gallery and booking CTA
+ * Modern redesigned room information layout
  */
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import MainLayout from '../layouts/MainLayout'
-import { getRoomBySlug, roomAmenities as amenityData } from '../utils/roomsData'
+import { getRoomBySlug } from '../utils/roomsData'
 
 export default function RoomDetailsPage({ slug, onBack, onBook }) {
   const room = getRoomBySlug(slug)
@@ -16,323 +16,357 @@ export default function RoomDetailsPage({ slug, onBack, onBook }) {
   const [checkOut, setCheckOut] = useState('')
   const [guests, setGuests] = useState(2)
 
+  // Dynamic image resolution for Vite
+  const getImageUrl = (name) => {
+    if (!name) return ''
+    if (name.startsWith('http')) return name
+    if (name.startsWith('/')) return name
+    try {
+      return new URL(`../assets/${name}`, import.meta.url).href
+    } catch (e) {
+      return name
+    }
+  }
+
+  const formatPrice = (price) => {
+    return new Intl.NumberFormat('en-UG', {
+      style: 'currency',
+      currency: 'UGX',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    }).format(price).replace('UGX', 'UGX ')
+  }
+
+  // Effect to scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   if (!room) {
     return (
       <MainLayout pageKey="room-not-found">
-        <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="min-h-[60vh] flex flex-col items-center justify-center bg-secondary-950 text-white pt-32">
           <div className="text-center">
-            <h1 className="text-2xl font-display mb-4">Room Not Found</h1>
-            <button onClick={onBack} className="btn btn-primary">
-              Back to Rooms
-            </button>
+            <h1 className="text-3xl font-display mb-6">Suite Not Found</h1>
+            <a href="#rooms">
+              <button className="btn btn-primary px-8">
+                Back to Suites
+              </button>
+            </a>
           </div>
         </div>
       </MainLayout>
     )
   }
 
-  const discount = room.originalPrice 
-    ? Math.round((1 - room.price / room.originalPrice) * 100) 
+  const discount = room.originalPrice
+    ? Math.round((1 - room.price / room.originalPrice) * 100)
     : 0
 
   return (
     <MainLayout pageKey={`room-${room.id}`}>
-      {/* Breadcrumb */}
-      <div className="bg-surface-dim border-b border-border">
-        <div className="container-app py-4">
-          <nav className="flex items-center gap-2 text-sm">
-            <button onClick={onBack} className="text-text-muted hover:text-primary-500">
-              Rooms
-            </button>
-            <ChevronRightIcon className="w-4 h-4 text-text-muted" />
-            <span className="text-text font-medium">{room.name}</span>
-          </nav>
+      {/* Hero / Header with Main Image */}
+      <section className="relative min-h-[70vh] flex items-end bg-secondary-950 pt-32">
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.img
+            initial={{ scale: 1.1 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 10, ease: 'easeOut' }}
+            src={getImageUrl(room.images[activeImage])}
+            alt={room.name}
+            className="w-full h-full object-cover opacity-60"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-secondary-950 via-secondary-950/20 to-transparent" />
         </div>
-      </div>
 
-      {/* Image Gallery */}
-      <section className="bg-secondary-950">
-        <div className="container-app py-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            {/* Main Image */}
+        <div className="container-app relative pb-16">
+          <div className="max-w-4xl">
             <motion.div
-              layoutId={`room-image-${room.id}`}
-              className="lg:col-span-2 relative aspect-[16/10] rounded-xl overflow-hidden cursor-pointer group"
-              onClick={() => setShowGallery(true)}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
             >
-              <img
-                src={room.images[activeImage]}
-                alt={room.name}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-secondary-950/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="absolute bottom-4 right-4 px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                View Gallery
+              <div className="flex flex-wrap items-center gap-3 mb-6">
+                <span className="px-3 py-1 bg-primary-500/20 backdrop-blur-md border border-primary-500/30 text-primary-400 text-xs font-semibold rounded-full uppercase tracking-widest">
+                  {room.category}
+                </span>
+                {room.featured && (
+                  <span className="px-3 py-1 bg-accent-500/20 backdrop-blur-md border border-accent-500/30 text-accent-400 text-xs font-semibold rounded-full uppercase tracking-widest">
+                    Signature Suite
+                  </span>
+                )}
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-7xl font-display text-white mb-6 leading-tight">
+                {room.name}
+              </h1>
+              <div className="flex flex-wrap items-center gap-8 text-secondary-200">
+                <div className="flex items-center gap-2">
+                  <SizeIcon className="w-5 h-5 text-primary-500" />
+                  <span className="text-sm uppercase tracking-wider font-medium">{room.size} m²</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <GuestIcon className="w-5 h-5 text-primary-500" />
+                  <span className="text-sm uppercase tracking-wider font-medium">Up to {room.maxGuests} Guests</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <BedIcon className="w-5 h-5 text-primary-500" />
+                  <span className="text-sm uppercase tracking-wider font-medium">{room.beds}</span>
+                </div>
               </div>
             </motion.div>
-
-            {/* Thumbnail Grid */}
-            <div className="grid grid-cols-3 lg:grid-cols-1 gap-2 lg:gap-4">
-              {room.images.slice(0, 3).map((img, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveImage(i)}
-                  className={`relative aspect-[16/10] lg:aspect-[16/9] rounded-lg overflow-hidden transition-all ${
-                    activeImage === i ? 'ring-2 ring-primary-500' : 'opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <img
-                    src={img}
-                    alt={`${room.name} view ${i + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </button>
-              ))}
-              {room.images.length > 3 && (
-                <button
-                  onClick={() => setShowGallery(true)}
-                  className="hidden lg:flex aspect-[16/9] rounded-lg bg-secondary-800 items-center justify-center text-white hover:bg-secondary-700 transition-colors"
-                >
-                  +{room.images.length - 3} more
-                </button>
-              )}
-            </div>
           </div>
         </div>
       </section>
 
-      {/* Content */}
-      <section className="section-md">
+      {/* Main Content Area */}
+      <section className="section-lg bg-surface-dim">
         <div className="container-app">
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-8">
-              {/* Header */}
-              <div>
-                <div className="flex flex-wrap items-center gap-3 mb-3">
-                  <span className="px-3 py-1 bg-primary-100 text-primary-700 text-sm font-medium rounded-full capitalize">
-                    {room.category}
-                  </span>
-                  {room.featured && (
-                    <span className="px-3 py-1 bg-accent-100 text-accent-700 text-sm font-medium rounded-full">
-                      Featured
-                    </span>
-                  )}
-                  {!room.available && (
-                    <span className="px-3 py-1 bg-red-100 text-red-700 text-sm font-medium rounded-full">
-                      Sold Out
-                    </span>
-                  )}
-                </div>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-display mb-4">
-                  {room.name}
-                </h1>
-                <div className="flex flex-wrap items-center gap-4 text-text-secondary">
-                  <span className="flex items-center gap-2">
-                    <SizeIcon className="w-5 h-5" />
-                    {room.size}m²
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <GuestsIcon className="w-5 h-5" />
-                    Up to {room.maxGuests} guests
-                  </span>
-                  <span className="flex items-center gap-2">
-                    <BedIcon className="w-5 h-5" />
-                    {room.beds}
-                  </span>
-                </div>
-              </div>
-
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16">
+            {/* Left Column: Details & Gallery */}
+            <div className="lg:col-span-8 space-y-16">
               {/* Description */}
-              <div>
-                <h2 className="text-xl font-display font-semibold mb-4">About This Room</h2>
-                <p className="text-text-secondary leading-relaxed">{room.description}</p>
+              <div className="prose prose-lg max-w-none">
+                <h2 className="text-2xl md:text-3xl font-display font-semibold mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-primary-500"></span>
+                  Overview
+                </h2>
+                <p className="text-text-secondary leading-relaxed text-lg">
+                  {room.description}
+                </p>
               </div>
 
-              {/* Amenities */}
-              <div>
-                <h2 className="text-xl font-display font-semibold mb-4">Amenities</h2>
+              {/* Enhanced Gallery Grid */}
+              <div className="space-y-6">
+                <h2 className="text-2xl md:text-3xl font-display font-semibold mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-primary-500"></span>
+                  Gallery
+                </h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {room.amenities.map((key) => {
-                    const amenity = amenityData[key]
-                    return (
-                      <div
-                        key={key}
-                        className="flex items-center gap-3 p-3 bg-surface-dim rounded-lg"
-                      >
-                        <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                          <CheckIcon className="w-5 h-5 text-primary-600" />
-                        </div>
-                        <span className="text-sm font-medium">
-                          {amenity?.label || key}
-                        </span>
+                  {room.images.map((img, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ scale: 1.02 }}
+                      className="relative aspect-square rounded-xl overflow-hidden cursor-pointer group shadow-lg"
+                      onClick={() => {
+                        setActiveImage(i)
+                        setShowGallery(true)
+                      }}
+                    >
+                      <img
+                        src={getImageUrl(img)}
+                        alt={`${room.name} view ${i + 1}`}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-secondary-950/20 group-hover:bg-transparent transition-colors duration-300" />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Amenities Grid */}
+              <div className="space-y-8">
+                <h2 className="text-2xl md:text-3xl font-display font-semibold mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-primary-500"></span>
+                  Suite Amenities
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {room.amenities.map((amenity) => (
+                    <div
+                      key={amenity}
+                      className="flex items-center gap-4 p-5 bg-white rounded-xl shadow-sm border border-border group hover:border-primary-500/30 transition-all duration-300"
+                    >
+                      <div className="w-12 h-12 bg-primary-50 rounded-xl flex items-center justify-center group-hover:bg-primary-500 transition-colors">
+                        <CheckIcon className="w-6 h-6 text-primary-600 group-hover:text-white" />
                       </div>
-                    )
-                  })}
-                </div>
-              </div>
-
-              {/* Policies */}
-              <div>
-                <h2 className="text-xl font-display font-semibold mb-4">Room Policies</h2>
-                <div className="grid sm:grid-cols-2 gap-4">
-                  <div className="p-4 bg-surface-dim rounded-lg">
-                    <h4 className="font-medium mb-2">Check-in / Check-out</h4>
-                    <p className="text-sm text-text-secondary">
-                      Check-in: 3:00 PM<br />
-                      Check-out: 11:00 AM
-                    </p>
-                  </div>
-                  <div className="p-4 bg-surface-dim rounded-lg">
-                    <h4 className="font-medium mb-2">Cancellation</h4>
-                    <p className="text-sm text-text-secondary">
-                      Free cancellation up to 48 hours before check-in.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Booking Sidebar */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-24 bg-surface border border-border rounded-2xl p-6 shadow-lg">
-                {/* Price */}
-                <div className="mb-6">
-                  <div className="flex items-baseline gap-2 mb-1">
-                    <span className="text-3xl font-bold">${room.price}</span>
-                    <span className="text-text-muted">/night</span>
-                  </div>
-                  {discount > 0 && (
-                    <div className="flex items-center gap-2">
-                      <span className="text-text-muted line-through">${room.originalPrice}</span>
-                      <span className="px-2 py-0.5 bg-primary-100 text-primary-700 text-sm font-medium rounded">
-                        {discount}% OFF
+                      <span className="text-sm md:text-base font-medium text-text-secondary capitalize">
+                        {amenity.replace('_', ' ')}
                       </span>
                     </div>
-                  )}
+                  ))}
                 </div>
+              </div>
 
-                {/* Booking Form */}
-                <form className="space-y-4">
+              {/* House Rules */}
+              <div className="space-y-6">
+                <h2 className="text-2xl md:text-3xl font-display font-semibold mb-6 flex items-center gap-3">
+                  <span className="w-8 h-px bg-primary-500"></span>
+                  House Rules
+                </h2>
+                <div className="bg-white p-8 rounded-2xl border border-border shadow-sm grid sm:grid-cols-2 gap-8">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Check In</label>
-                    <input
-                      type="date"
-                      value={checkIn}
-                      onChange={(e) => setCheckIn(e.target.value)}
-                      className="input"
-                    />
+                    <h4 className="font-display font-semibold text-lg mb-4 text-secondary-900">Check-in / Check-out</h4>
+                    <ul className="space-y-3 text-text-secondary">
+                      <li className="flex justify-between items-center pb-2 border-b border-border">
+                        <span className="text-sm">Check-in from</span>
+                        <span className="font-semibold text-secondary-900">3:00 PM</span>
+                      </li>
+                      <li className="flex justify-between items-center">
+                        <span className="text-sm">Check-out by</span>
+                        <span className="font-semibold text-secondary-900">11:00 AM</span>
+                      </li>
+                    </ul>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium mb-2">Check Out</label>
-                    <input
-                      type="date"
-                      value={checkOut}
-                      onChange={(e) => setCheckOut(e.target.value)}
-                      className="input"
-                    />
+                    <h4 className="font-display font-semibold text-lg mb-4 text-secondary-900">Policies</h4>
+                    <p className="text-sm text-text-secondary leading-relaxed">
+                      Please note that all rooms are non-smoking. Pets are not allowed. Free cancellation is available up to 48 hours before check-in.
+                    </p>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Guests</label>
-                    <select
-                      value={guests}
-                      onChange={(e) => setGuests(parseInt(e.target.value))}
-                      className="input"
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Booking Widget */}
+            <div className="lg:col-span-4">
+              <div className="sticky top-24">
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  className="bg-white rounded-3xl border border-border shadow-2xl overflow-hidden"
+                >
+                  {/* Price Header */}
+                  <div className="bg-secondary-950 p-8 text-white">
+                    <div className="flex items-baseline gap-2 mb-2">
+                      <span className="text-4xl font-display font-bold text-primary-400">{formatPrice(room.price)}</span>
+                      <span className="text-secondary-400 text-sm uppercase tracking-widest">/ night</span>
+                    </div>
+                    {discount > 0 && (
+                      <div className="flex items-center gap-3">
+                        <span className="text-secondary-500 line-through text-lg">{formatPrice(room.originalPrice)}</span>
+                        <span className="px-2 py-1 bg-primary-500 text-white text-[10px] font-bold rounded uppercase tracking-tighter">
+                          Save {discount}%
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Form */}
+                  <div className="p-8 space-y-6">
+                    <div>
+                      <label className="block text-xs font-bold text-secondary-900 uppercase tracking-widest mb-3">Check-in</label>
+                      <input
+                        type="date"
+                        value={checkIn}
+                        onChange={(e) => setCheckIn(e.target.value)}
+                        className="w-full px-5 py-4 bg-surface-dim border border-border rounded-xl focus:border-primary-500 focus:outline-none transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-secondary-900 uppercase tracking-widest mb-3">Check-out</label>
+                      <input
+                        type="date"
+                        value={checkOut}
+                        onChange={(e) => setCheckOut(e.target.value)}
+                        className="w-full px-5 py-4 bg-surface-dim border border-border rounded-xl focus:border-primary-500 focus:outline-none transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-bold text-secondary-900 uppercase tracking-widest mb-3">Guests</label>
+                      <div className="relative">
+                        <select
+                          value={guests}
+                          onChange={(e) => setGuests(parseInt(e.target.value))}
+                          className="w-full px-5 py-4 bg-surface-dim border border-border rounded-xl focus:border-primary-500 focus:outline-none appearance-none transition-colors"
+                        >
+                          {[...Array(room.maxGuests)].map((_, i) => (
+                            <option key={i + 1} value={i + 1}>
+                              {i + 1} {i === 0 ? 'Guest' : 'Guests'}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
+                          <ChevronDownIcon className="w-5 h-5 text-secondary-400" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      disabled={!room.available}
+                      className="w-full btn btn-primary py-5 text-base font-bold uppercase tracking-widest disabled:opacity-50 shadow-lg shadow-primary-500/20"
                     >
-                      {[...Array(room.maxGuests)].map((_, i) => (
-                        <option key={i + 1} value={i + 1}>
-                          {i + 1} Guest{i > 0 ? 's' : ''}
-                        </option>
-                      ))}
-                    </select>
+                      {room.available ? 'Reserve Suite' : 'Fully Booked'}
+                    </motion.button>
+
+                    <p className="text-center text-xs text-text-muted">
+                      No payment required today
+                    </p>
                   </div>
 
-                  <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    type="submit"
-                    disabled={!room.available}
-                    className="w-full btn btn-primary py-3 text-base disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {room.available ? 'Reserve Now' : 'Not Available'}
-                  </motion.button>
-                </form>
-
-                {/* Trust Badges */}
-                <div className="mt-6 pt-6 border-t border-border space-y-3 text-sm text-text-muted">
-                  <div className="flex items-center gap-2">
-                    <CheckIcon className="w-4 h-4 text-primary-500" />
-                    Free cancellation within 48 hours
+                  {/* Trust Badges */}
+                  <div className="bg-surface-dim p-6 border-t border-border flex flex-col gap-4">
+                    <div className="flex items-center gap-3 text-xs text-text-secondary font-medium">
+                      <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center">
+                        <CheckIcon className="w-3 h-3 text-primary-600" />
+                      </div>
+                      Best Price Guaranteed
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-text-secondary font-medium">
+                      <div className="w-6 h-6 rounded-full bg-primary-100 flex items-center justify-center">
+                        <CheckIcon className="w-3 h-3 text-primary-600" />
+                      </div>
+                      Free Cancellation Facility
+                    </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <CheckIcon className="w-4 h-4 text-primary-500" />
-                    Best price guarantee
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <CheckIcon className="w-4 h-4 text-primary-500" />
-                    Instant confirmation
-                  </div>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Fullscreen Gallery Modal */}
+      {/* Modern Gallery Modal */}
       <AnimatePresence>
         {showGallery && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-secondary-950/95 flex items-center justify-center"
-            onClick={() => setShowGallery(false)}
+            className="fixed inset-0 z-[1000] bg-secondary-950/98 backdrop-blur-xl flex items-center justify-center p-4 md:p-8"
           >
-            {/* Close Button */}
             <button
               onClick={() => setShowGallery(false)}
-              className="absolute top-4 right-4 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+              className="absolute top-8 right-8 text-white/50 hover:text-white transition-colors"
             >
-              <CloseIcon className="w-6 h-6" />
+              <CloseIcon className="w-8 h-8" />
             </button>
 
-            {/* Navigation */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                setActiveImage((prev) => (prev - 1 + room.images.length) % room.images.length)
-              }}
-              className="absolute left-4 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="relative max-w-6xl w-full h-full flex items-center justify-center"
             >
-              <ChevronLeftIcon className="w-6 h-6" />
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation()
-                setActiveImage((prev) => (prev + 1) % room.images.length)
-              }}
-              className="absolute right-4 w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center text-white transition-colors"
-            >
-              <ChevronRightIcon className="w-6 h-6" />
-            </button>
+              <button
+                onClick={() => setActiveImage((prev) => (prev - 1 + room.images.length) % room.images.length)}
+                className="absolute left-0 p-4 text-white/50 hover:text-white transition-colors"
+              >
+                <ChevronLeftIcon className="w-12 h-12" />
+              </button>
 
-            {/* Image */}
-            <motion.img
-              key={activeImage}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              src={room.images[activeImage]}
-              alt={`${room.name} view ${activeImage + 1}`}
-              className="max-w-[90vw] max-h-[85vh] object-contain rounded-lg"
-              onClick={(e) => e.stopPropagation()}
-            />
+              <img
+                src={getImageUrl(room.images[activeImage])}
+                alt={room.name}
+                className="max-w-full max-h-full object-contain rounded-2xl shadow-2xl"
+              />
 
-            {/* Counter */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white text-sm">
-              {activeImage + 1} / {room.images.length}
-            </div>
+              <button
+                onClick={() => setActiveImage((prev) => (prev + 1) % room.images.length)}
+                className="absolute right-0 p-4 text-white/50 hover:text-white transition-colors"
+              >
+                <ChevronRightIcon className="w-12 h-12" />
+              </button>
+
+              <div className="absolute bottom-0 left-1/2 -translate-x-1/2 flex gap-3 pb-8">
+                {room.images.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveImage(i)}
+                    className={`w-2 h-2 rounded-full transition-all ${activeImage === i ? 'bg-primary-500 w-8' : 'bg-white/30'}`}
+                  />
+                ))}
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -341,58 +375,71 @@ export default function RoomDetailsPage({ slug, onBack, onBook }) {
 }
 
 // Icons
-function ChevronRightIcon(props) {
-  return (
-    <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
-      <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-    </svg>
-  )
-}
-
 function ChevronLeftIcon(props) {
   return (
-    <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
-      <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polyline points="15 18 9 12 15 6" />
     </svg>
   )
 }
 
-function SizeIcon(props) {
+function ChevronRightIcon(props) {
   return (
-    <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
-      <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm1 0v12h12V4H4z" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polyline points="9 18 15 12 9 6" />
     </svg>
   )
 }
 
-function GuestsIcon(props) {
+function ChevronDownIcon(props) {
   return (
-    <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
-      <path d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" />
-    </svg>
-  )
-}
-
-function BedIcon(props) {
-  return (
-    <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
-      <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.5 4a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm9 0a1.5 1.5 0 100-3 1.5 1.5 0 000 3zM4 12v3h12v-3H4z" />
-    </svg>
-  )
-}
-
-function CheckIcon(props) {
-  return (
-    <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
-      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polyline points="6 9 12 15 18 9" />
     </svg>
   )
 }
 
 function CloseIcon(props) {
   return (
-    <svg viewBox="0 0 20 20" fill="currentColor" {...props}>
-      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <line x1="18" y1="6" x2="6" y2="18" />
+      <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  )
+}
+
+function CheckIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  )
+}
+
+function SizeIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+      <line x1="9" y1="3" x2="9" y2="21" />
+    </svg>
+  )
+}
+
+function GuestIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  )
+}
+
+function BedIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M3 7v11M21 7v11M3 11h18M5 11v-4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v4" />
     </svg>
   )
 }

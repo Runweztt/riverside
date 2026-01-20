@@ -4,86 +4,81 @@
  */
 
 import { motion } from 'framer-motion'
+import ctaBg from '../assets/hotel-building.jpg'
 
 export default function CTASection() {
   return (
-    <section className="relative py-24 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-primary-600 via-primary-500 to-primary-600" />
-      
-      {/* Decorative Pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div 
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-            backgroundSize: '32px 32px',
-          }}
-        />
-      </div>
-
-      {/* Floating Elements */}
-      <motion.div
-        animate={{ y: [0, -20, 0], rotate: [0, 5, 0] }}
-        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-10 left-10 w-20 h-20 bg-white/10 rounded-2xl blur-sm"
-      />
-      <motion.div
-        animate={{ y: [0, 20, 0], rotate: [0, -5, 0] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        className="absolute bottom-10 right-10 w-32 h-32 bg-white/10 rounded-full blur-sm"
-      />
-
-      <div className="container-app relative">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="max-w-3xl mx-auto text-center"
-        >
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display text-white mb-6">
-            Ready to Experience{' '}
-            <span className="text-accent-300">Extraordinary?</span>
-          </h2>
-          <p className="text-lg text-primary-100 mb-10 max-w-xl mx-auto">
-            Book your stay today and discover why Riverside Suites is Najjerra's 
-            most sought-after destination. Limited availability – reserve now.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: '0 10px 40px rgba(0,0,0,0.2)' }}
-              whileTap={{ scale: 0.95 }}
-              className="btn bg-white text-primary-600 hover:bg-primary-50 text-base px-10 py-4 font-semibold"
-            >
-              Book Now – Best Rates
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="btn border-2 border-white text-white hover:bg-white/10 text-base px-10 py-4"
-            >
-              Contact Us
-            </motion.button>
+    <section className="py-20 bg-surface">
+      <div className="container-app">
+        <div className="relative rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10">
+          {/* Background Image & Gradient */}
+          <div className="absolute inset-0">
+            <img
+              src={ctaBg}
+              alt="Riverside Suites Experience"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-700 via-primary-600/90 to-primary-700/80" />
+            <div className="absolute inset-0 bg-secondary-950/20" /> {/* Extra dark layer */}
           </div>
 
-          {/* Trust badges */}
-          <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-sm text-primary-100">
-            <span className="flex items-center gap-2">
-              <ShieldIcon className="w-5 h-5" />
-              Secure Booking
-            </span>
-            <span className="flex items-center gap-2">
-              <ClockIcon className="w-5 h-5" />
-              24/7 Support
-            </span>
-            <span className="flex items-center gap-2">
-              <StarIcon className="w-5 h-5" />
-              Best Price Guarantee
-            </span>
+          {/* Content */}
+          <div className="relative z-10 p-8 md:p-16 lg:p-20 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="max-w-3xl mx-auto"
+            >
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-display text-white mb-6">
+                Ready to Experience{' '}
+                <span className="text-white/90">Extraordinary?</span>
+              </h2>
+              <p className="text-lg text-primary-50 mb-10 max-w-xl mx-auto opacity-90 hero-description">
+                Book your stay today and discover why Riverside Suites is Najjerra's
+                most sought-after destination. Your journey to futuristic luxury begins here.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#booking">
+                  <motion.button
+                    whileHover={{ scale: 1.05, boxShadow: '0 10px 40px rgba(0,0,0,0.2)' }}
+                    whileTap={{ scale: 0.95 }}
+                    className="btn bg-white text-primary-600 hover:bg-primary-50 text-base px-10 py-4 font-semibold w-full sm:w-auto"
+                  >
+                    Book Your Stay
+                  </motion.button>
+                </a>
+                <a href="#rooms">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="btn backdrop-blur-sm border-2 border-white text-white hover:bg-white/10 text-base px-10 py-4 w-full sm:w-auto"
+                  >
+                    View Rooms
+                  </motion.button>
+                </a>
+              </div>
+
+              {/* Trust badges */}
+              <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm text-primary-50 opacity-80">
+                <span className="flex items-center gap-2">
+                  <ShieldIcon className="w-5 h-5" />
+                  Secure Booking
+                </span>
+                <span className="flex items-center gap-2">
+                  <ClockIcon className="w-5 h-5" />
+                  24/7 Support
+                </span>
+                <span className="flex items-center gap-2">
+                  <StarIcon className="w-5 h-5" />
+                  Best Rate Guarantee
+                </span>
+              </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

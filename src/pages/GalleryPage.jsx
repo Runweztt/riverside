@@ -5,89 +5,101 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import heroBg from '../assets/35.jpg'
+import img2 from '../assets/2.jpg'
+import img12 from '../assets/12.jpg'
+import img17 from '../assets/17.jpg'
+import img19 from '../assets/19.jpg'
+import img29 from '../assets/29.jpg'
+import img35 from '../assets/35.jpg'
+import img52 from '../assets/52.jpg'
+import img54 from '../assets/54.jpg'
+import img58 from '../assets/58.jpg'
+import imgBuilding from '../assets/hotel-building.jpg'
+import imgRoom from '../assets/hotel-room.jpg'
 import MainLayout from '../layouts/MainLayout'
 
 const galleryImages = [
   {
     id: 1,
-    src: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80',
+    src: imgBuilding,
     alt: 'Hotel exterior at sunset',
     category: 'exterior',
     span: 'tall',
   },
   {
     id: 2,
-    src: 'https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=800&q=80',
+    src: imgRoom,
     alt: 'Luxury suite bedroom',
     category: 'rooms',
     span: 'normal',
   },
   {
     id: 3,
-    src: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80',
+    src: img12,
     alt: 'Presidential suite living area',
     category: 'rooms',
     span: 'wide',
   },
   {
     id: 4,
-    src: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&q=80',
+    src: img29,
     alt: 'Infinity pool view',
     category: 'amenities',
     span: 'normal',
   },
   {
     id: 5,
-    src: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80',
+    src: img19,
     alt: 'Penthouse terrace',
     category: 'rooms',
     span: 'tall',
   },
   {
     id: 6,
-    src: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80',
+    src: img17,
     alt: 'Spa treatment room',
     category: 'amenities',
     span: 'normal',
   },
   {
     id: 7,
-    src: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80',
+    src: img35,
     alt: 'Fine dining restaurant',
     category: 'dining',
     span: 'wide',
   },
   {
     id: 8,
-    src: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&q=80',
+    src: img52,
     alt: 'Executive room',
     category: 'rooms',
     span: 'normal',
   },
   {
     id: 9,
-    src: 'https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80',
+    src: img54,
     alt: 'Hotel lobby',
     category: 'exterior',
     span: 'normal',
   },
   {
     id: 10,
-    src: 'https://images.unsplash.com/photo-1540518614846-7eded433c457?w=800&q=80',
+    src: img2,
     alt: 'Bathroom with skylight',
     category: 'rooms',
     span: 'tall',
   },
   {
     id: 11,
-    src: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&q=80',
+    src: img58,
     alt: 'Bar and lounge',
     category: 'dining',
     span: 'normal',
   },
   {
     id: 12,
-    src: 'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=80',
+    src: img17,
     alt: 'River view from balcony',
     category: 'exterior',
     span: 'wide',
@@ -131,9 +143,14 @@ export default function GalleryPage() {
   return (
     <MainLayout pageKey="gallery">
       {/* Hero */}
-      <section className="relative py-20 bg-gradient-to-br from-secondary-900 via-secondary-950 to-secondary-900 overflow-hidden" style={{ paddingTop: '110px' }}>
+      <section className="relative py-20 bg-secondary-950 overflow-hidden" style={{ paddingTop: '110px' }}>
         <div className="absolute inset-0">
-          <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-primary-500/10 rounded-full blur-[100px]" />
+          <img
+            src={heroBg}
+            alt="Our Gallery"
+            className="absolute inset-0 w-full h-full object-cover opacity-50"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-secondary-950/80 via-secondary-950/50 to-secondary-950" />
         </div>
         <div className="container-app relative">
           <motion.div
@@ -147,7 +164,7 @@ export default function GalleryPage() {
             <h1 className="text-4xl md:text-5xl lg:text-5xl font-w-400 text-white mb-6" style={{ paddingTop: '50px' }}>
               Our <span className="text-gradient-primary">Gallery</span>
             </h1>
-            <p className="text-secondary-300 text-lg">
+            <p className="text-secondary-300 text-lg hero-description">
               Explore the elegance and beauty of Riverside Suites through our curated collection of photographs.
             </p>
           </motion.div>
@@ -155,7 +172,7 @@ export default function GalleryPage() {
       </section>
 
       {/* Filter Tabs */}
-      <section className="sticky top-16 md:top-20 z-20 bg-surface border-b border-border">
+      <section className="sticky top-16 md:top-20 z-20 bg-surface border-b border-border ">
         <div className="container-app py-4">
           <div className="flex items-center gap-2 overflow-x-auto hide-scrollbar pb-2">
             {categories.map((cat) => (
