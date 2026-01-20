@@ -6,10 +6,11 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import logoSvg from '../assets/logo.png'
+import logoMobile from '../assets/logo-mobile.png'
 
 const navLinks = [
   { label: 'Home', href: '#home' },
-  { label: 'Rooms', href: '#rooms' },
+  { label: 'Suites', href: '#rooms' },
   { label: 'Amenities', href: '#amenities' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'About', href: '#about' },
@@ -150,7 +151,7 @@ export default function Navbar() {
 
           {/* Mobile Logo (Visible only on mobile) */}
           <div className="flex lg:hidden flex-1 justify-center pr-11">
-            <img src={logoSvg} alt="Riverside Suites" className="h-10 w-auto" />
+            <img src={logoMobile} alt="Riverside Suites" className="h-10 w-auto" />
           </div>
         </nav>
       </motion.header>

@@ -68,60 +68,6 @@ const amenityCategories = [
       },
     ],
   },
-  {
-    title: 'Business & Events',
-    description: 'Professional facilities for meetings, conferences, and special occasions.',
-    items: [
-      {
-        icon: ConferenceIcon,
-        name: 'Conference Center',
-        description: 'Three fully-equipped meeting rooms with AV technology and catering services.',
-        hours: 'Available upon request',
-      },
-      {
-        icon: BusinessIcon,
-        name: 'Business Lounge',
-        description: 'Private workspaces with high-speed WiFi, printing, and secretarial services.',
-        hours: 'Open 24/7',
-      },
-      {
-        icon: EventIcon,
-        name: 'Grand Ballroom',
-        description: 'Elegant venue for weddings, galas, and corporate events up to 300 guests.',
-        hours: 'Available upon request',
-      },
-    ],
-  },
-  {
-    title: 'Guest Services',
-    description: 'Everything you need for a seamless, memorable stay.',
-    items: [
-      {
-        icon: ConciergeIcon,
-        name: 'Concierge',
-        description: 'Expert local recommendations, reservations, and personalized arrangements.',
-        hours: 'Available 24/7',
-      },
-      {
-        icon: ValetIcon,
-        name: 'Valet Parking',
-        description: 'Complimentary valet parking with secure underground garage.',
-        hours: 'Available 24/7',
-      },
-      {
-        icon: TransferIcon,
-        name: 'Airport Transfers',
-        description: 'Luxury car service to and from Entebbe International Airport.',
-        hours: 'Reservations required',
-      },
-      {
-        icon: LaundryIcon,
-        name: 'Laundry & Dry Cleaning',
-        description: 'Same-day laundry and dry cleaning services available.',
-        hours: 'Collection before 10:00 AM',
-      },
-    ],
-  },
 ]
 
 const containerVariants = {

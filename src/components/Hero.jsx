@@ -1,7 +1,6 @@
 /**
  * Hero Section
- * Desktop: Hotel building background with Ken Burns animation
- * Mobile: Futuristic animated geometric background
+ * Optimized for mobile with background image slider and reduced motion
  */
 
 import { motion, AnimatePresence } from 'framer-motion'
@@ -46,8 +45,8 @@ export default function Hero() {
 
   return (
     <section className="relative h-[68vh] md:h-[78vh] flex items-center justify-center overflow-hidden bg-secondary-950">
-      {/* ============ DESKTOP BACKGROUND - Image Slider ============ */}
-      <div className="absolute inset-0 overflow-hidden hidden md:block">
+      {/* ============ SHARED BACKGROUND - Image Slider ============ */}
+      <div className="absolute inset-0 overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
@@ -76,132 +75,100 @@ export default function Hero() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-secondary-950/70 via-secondary-950/50 to-secondary-950/90" />
+        {/* Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-b from-secondary-950/70 via-secondary-950/40 to-secondary-950/90" />
         <div className="absolute inset-0 bg-gradient-to-r from-secondary-950/60 via-transparent to-secondary-950/60" />
-      </div>
 
-      {/* ============ MOBILE BACKGROUND - Image Slider ============ */}
-      <div className="absolute inset-0 overflow-hidden md:hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.8 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1 }}
-            className="absolute inset-0"
-          >
-            <img
-              src={images[currentIndex]}
-              alt="Background"
-              className="w-full h-full object-cover"
+        {/* Mobile Specific Effects (Particles/Grid) */}
+        <div className="md:hidden">
+          {/* Animated Grid Lines */}
+          <div className="absolute inset-0 opacity-10 pointer-events-none">
+            <motion.div
+              animate={{ y: [0, -50] }}
+              transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `
+                  linear-gradient(to right, rgba(4, 200, 176, 0.3) 1px, transparent 1px),
+                  linear-gradient(to bottom, rgba(4, 200, 176, 0.3) 1px, transparent 1px)
+                `,
+                backgroundSize: '50px 50px',
+              }}
             />
-          </motion.div>
-        </AnimatePresence>
-        <div className="absolute inset-0 bg-secondary-950/40 backdrop-blur-[2px]" />
-        {/* Base Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-secondary-950 via-secondary-900 to-secondary-950" />
+          </div>
 
-        {/* Animated Grid Lines */}
-        <div className="absolute inset-0 opacity-10">
-          <motion.div
-            animate={{ y: [0, -50] }}
-            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `
-                linear-gradient(to right, rgba(4, 200, 176, 0.3) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(4, 200, 176, 0.3) 1px, transparent 1px)
-              `,
-              backgroundSize: '50px 50px',
-            }}
-          />
+          {/* Floating Particles */}
+          {particles.map((particle) => (
+            <motion.div
+              key={particle.id}
+              className="absolute rounded-full bg-primary-400 pointer-events-none"
+              style={{
+                left: `${particle.x}%`,
+                top: `${particle.y}%`,
+                width: particle.size,
+                height: particle.size,
+              }}
+              animate={{
+                y: [0, -30, 0],
+                opacity: [0.2, 0.8, 0.2],
+                scale: [1, 1.5, 1],
+              }}
+              transition={{
+                duration: particle.duration,
+                repeat: Infinity,
+                delay: particle.delay,
+                ease: 'easeInOut',
+              }}
+            />
+          ))}
         </div>
-
-        {/* Floating Particles */}
-        {particles.map((particle) => (
-          <motion.div
-            key={particle.id}
-            className="absolute rounded-full bg-primary-400"
-            style={{
-              left: `${particle.x}%`,
-              top: `${particle.y}%`,
-              width: particle.size,
-              height: particle.size,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.2, 0.8, 0.2],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: particle.duration,
-              repeat: Infinity,
-              delay: particle.delay,
-              ease: 'easeInOut',
-            }}
-          />
-        ))}
-
-        {/* Animated Geometric Shapes */}
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-          className="absolute -top-20 -right-20 w-80 h-80 border border-primary-500/20 rounded-full"
-        />
-        <motion.div
-          animate={{ rotate: -360 }}
-          transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
-          className="absolute -top-10 -right-10 w-60 h-60 border border-primary-400/30 rounded-full"
-        />
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
-          className="absolute -bottom-32 -left-32 w-96 h-96 border border-accent-500/20 rounded-full"
-        />
-
-        {/* Pulsing Orbs */}
-        <motion.div
-          animate={{
-            scale: [1, 1.3, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary-500/30 rounded-full blur-[60px]"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.4, 1],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-          className="absolute bottom-1/3 right-1/4 w-40 h-40 bg-accent-500/20 rounded-full blur-[50px]"
-        />
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          className="absolute top-1/2 right-1/3 w-24 h-24 bg-primary-400/25 rounded-full blur-[40px]"
-        />
-
-        {/* Diagonal Lines */}
-        <motion.div
-          animate={{ x: [-100, 100] }}
-          transition={{ duration: 8, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut' }}
-          className="absolute top-1/3 left-0 w-[200%] h-px bg-gradient-to-r from-transparent via-primary-500/30 to-transparent"
-        />
-        <motion.div
-          animate={{ x: [100, -100] }}
-          transition={{ duration: 10, repeat: Infinity, repeatType: 'reverse', ease: 'easeInOut', delay: 2 }}
-          className="absolute top-2/3 left-0 w-[200%] h-px bg-gradient-to-r from-transparent via-accent-500/20 to-transparent"
-        />
       </div>
 
-      {/* ============ SHARED ELEMENTS ============ */}
-      {/* Ambient Glow Orbs - for desktop over image */}
+      {/* ============ DECORATIVE ELEMENTS ============ */}
+      {/* Animated Geometric Shapes */}
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+        className="absolute -top-20 -right-20 w-80 h-80 border border-primary-500/20 rounded-full pointer-events-none"
+      />
+      <motion.div
+        animate={{ rotate: -360 }}
+        transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
+        className="absolute -top-10 -right-10 w-60 h-60 border border-primary-400/30 rounded-full pointer-events-none"
+      />
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
+        className="absolute -bottom-32 -left-32 w-96 h-96 border border-accent-500/20 rounded-full pointer-events-none"
+      />
+
+      {/* Pulsing Orbs */}
+      <motion.div
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.3, 0.6, 0.3],
+        }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary-500/30 rounded-full blur-[60px] pointer-events-none"
+      />
+      <motion.div
+        animate={{
+          scale: [1, 1.4, 1],
+          opacity: [0.2, 0.5, 0.2],
+        }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
+        className="absolute bottom-1/3 right-1/4 w-40 h-40 bg-accent-500/20 rounded-full blur-[50px] pointer-events-none"
+      />
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+        className="absolute top-1/2 right-1/3 w-24 h-24 bg-primary-400/25 rounded-full blur-[40px] pointer-events-none"
+      />
+
+      {/* Ambient Glow Orbs (Desktop) */}
       <div className="absolute inset-0 hidden md:block pointer-events-none">
         <motion.div
           animate={{
@@ -226,22 +193,6 @@ export default function Hero() {
       {/* ============ CONTENT ============ */}
       <div className="container-app relative z-10 pt-24 pb-16 md:py-20">
         <div className="max-w-4xl mx-auto text-center px-4">
-          {/* Badge */}
-          {/*<motion.div
-            custom={0}
-            variants={textVariants}
-            initial="hidden"
-            animate="visible"
-            className=" inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-6 md:mb-8"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
-            </span>
-            <span className="text-primary-300 text-sm font-medium">Welcome to Riverside Suites</span>
-          </motion.div>*/}
-
-          {/* Heading */}
           <motion.h1
             custom={1}
             variants={textVariants}
@@ -250,11 +201,10 @@ export default function Hero() {
             className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl hero-title text-white mb-4 md:mb-6 leading-[1.1] drop-shadow-lg"
           >
             Luxury Living{' '}
-
             <br />
             Elegantly
-            <span className="relative">
-              <span className="text-gradient-primary"> Redefined</span>
+            <span className="relative inline-block ml-2">
+              <span className="text-gradient-primary">Redefined</span>
               <motion.span
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
@@ -264,7 +214,6 @@ export default function Hero() {
             </span>
           </motion.h1>
 
-          {/* Subheading */}
           <motion.p
             custom={2}
             variants={textVariants}
@@ -276,7 +225,6 @@ export default function Hero() {
             Premium accommodations and world-class amenities await.
           </motion.p>
 
-          {/* CTAs */}
           <motion.div
             custom={3}
             variants={textVariants}
@@ -301,36 +249,10 @@ export default function Hero() {
               Explore Suites
             </motion.a>
           </motion.div>
-
-          {/* Stats - 2x2 grid on mobile */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.6 }}
-            className="mt-10 md:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 hidden"
-          >
-            {[
-              { value: '50+', label: 'Luxury Suites' },
-              { value: '4.9', label: 'Guest Rating' },
-              { value: '24/7', label: 'Concierge' },
-              { value: '5★', label: 'Experience' },
-            ].map((stat, i) => (
-              <motion.div
-                key={i}
-                className="text-center bg-white/5 backdrop-blur-sm rounded-xl py-3 md:py-4 px-2 border border-white/10"
-                whileHover={{ scale: 1.05, borderColor: 'rgba(4, 200, 176, 0.3)' }}
-              >
-                <div className="text-xl md:text-3xl font-display font-semibold text-white mb-1">
-                  {stat.value}
-                </div>
-                <div className="text-xs md:text-sm text-white/70">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
       </div>
 
-      {/* Scroll Indicator - hidden on mobile */}
+      {/* Scroll Indicator (Desktop) */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

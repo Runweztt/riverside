@@ -158,7 +158,7 @@ export default function AboutPage() {
               What Drives Us
             </span>
             <h2 className="text-3xl md:text-4xl font-display mb-4">
-              Our Core <span className="text-gradient-gold">Values</span>
+              Our Core <span className="text-gradient-primary">Values</span>
             </h2>
           </motion.div>
 

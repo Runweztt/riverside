@@ -3,127 +3,175 @@
  * Preview of hotel amenities with icons
  */
 
-import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import bgImage from '../assets/26.jpg'
+import imgRooftop from '../assets/57.jpg'
+import imgGym from '../assets/38.jpg'
+import imgKitchen from '../assets/23.jpg'
+import imgSauna from '../assets/9.jpg'
 
-const amenities = [
+const facilities = [
   {
+    title: 'Rooftop & Pool',
     icon: PoolIcon,
-    title: 'Infinity Pool',
-    description: 'Rooftop infinity pool with stunning city views, open 24/7.',
+    image: imgRooftop,
   },
   {
-    icon: SpaIcon,
-    title: 'Luxury Spa',
-    description: 'Full-service spa with massage, sauna, and wellness treatments.',
-  },
-  {
-    icon: DiningIcon,
-    title: 'Fine Dining',
-    description: 'Award-winning restaurant featuring local and international cuisine.',
-  },
-  {
-    icon: GymIcon,
     title: 'Fitness Center',
-    description: 'State-of-the-art gym with personal trainers and yoga classes.',
+    icon: GymIcon,
+    image: imgGym,
   },
   {
-    icon: WifiIcon,
+    title: 'Gourmet Kitchens',
+    icon: DiningIcon,
+    image: imgKitchen,
+  },
+  {
+    title: 'Sauna & Spa',
+    icon: SpaIcon,
+    image: imgSauna,
+  },
+  {
     title: 'High-Speed WiFi',
-    description: 'Complimentary fiber-optic internet throughout the property.',
+    icon: WifiIcon,
   },
   {
-    icon: ParkingIcon,
     title: 'Valet Parking',
-    description: 'Secure underground parking with 24-hour valet service.',
+    icon: ParkingIcon,
+  },
+  {
+    title: '24/7 Security',
+    icon: SecurityIcon,
+  },
+  {
+    title: 'Concierge Service',
+    icon: ConciergeIcon,
   },
 ]
 
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-}
+const sliderImages = [
+  { title: 'Rooftop & Pool', image: imgRooftop },
+  { title: 'Fitness Center', image: imgGym },
+  { title: 'Gourmet Kitchens', image: imgKitchen },
+  { title: 'Sauna & Spa', image: imgSauna },
+]
 
-const itemVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4 },
-  },
-}
+import patternBottom from '../assets/pattern-bottom.png'
 
 export default function Amenities() {
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % sliderImages.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
+
   return (
-    <section className="section-lg bg-surface">
-      <div className="container-app">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-12"
-        >
-          <span className="text-primary-500 text-sm font-medium uppercase tracking-wider mb-3 block">
-            World-Class Facilities
-          </span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-display mb-4">
-            Premium <span className="text-gradient-gold">Amenities</span>
-          </h2>
-          <p className="text-text-secondary max-w-2xl mx-auto">
-            Every detail has been crafted for your comfort and convenience.
-          </p>
-        </motion.div>
+    <section className="relative py-24 bg-secondary-950">
+      {/* Decorative Pattern Top */}
+      <div className="absolute top-0 left-0 w-full -translate-y-full z-20 pointer-events-none">
+        <img
+          src={patternBottom}
+          alt=""
+          className="w-full h-auto rotate-180"
+        />
+      </div>
 
-        {/* Amenities Grid */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-        >
-          {amenities.map((amenity, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              whileHover={{ y: -4, boxShadow: '0 20px 40px rgba(0,0,0,0.08)' }}
-              className="group p-6 bg-surface rounded-xl border border-border hover:border-primary-200 transition-all duration-300"
-            >
-              {/* Icon */}
-              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
-                <amenity.icon className="w-7 h-7 text-white" />
-              </div>
+      {/* Background */}
+      <div className="absolute inset-0 overflow-hidden">
+        <img
+          src={bgImage}
+          alt="Amenities Background"
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+        />
+        <div className="absolute inset-0 bg-secondary-950/60" />
+      </div>
 
-              {/* Content */}
-              <h3 className="text-lg font-display font-semibold mb-2">
-                {amenity.title}
-              </h3>
-              <p className="text-text-secondary text-sm leading-relaxed">
-                {amenity.description}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center mt-12"
-        >
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="btn btn-secondary px-8"
+      <div className="container-app relative z-10">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          {/* Left Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
           >
-            Explore All Amenities
-          </motion.button>
-        </motion.div>
+            <span className="text-primary-400 text-sm font-medium uppercase tracking-wider mb-4 block">
+              World-Class Facilities
+            </span>
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-display text-white mb-10">
+              Premium <span className="text-gradient-primary">Amenities</span>
+            </h2>
+
+            <div className="grid sm:grid-cols-2 gap-4">
+              {facilities.map((item, index) => (
+                <div
+                  key={index}
+                  className="group relative p-4 rounded-xl border bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300 transform hover:-translate-y-1"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-display font-medium text-white group-hover:text-primary-400 transition-colors">
+                      {item.title}
+                    </span>
+                    <item.icon className="w-6 h-6 text-white/70 group-hover:text-primary-400 transition-colors" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right Image Slider */}
+          <div className="relative">
+            {/* Gold Gradients */}
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary-500/20 rounded-full blur-3xl z-0" />
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-accent-500/20 rounded-full blur-3xl z-0" />
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-secondary-900 border border-primary-500/20 z-10"
+            >
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={activeIndex}
+                  initial={{ opacity: 0, scale: 1.1 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  src={sliderImages[activeIndex].image}
+                  alt={sliderImages[activeIndex].title}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              </AnimatePresence>
+
+              {/* Gradient Overlay for Controls */}
+              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/80 to-transparent pointer-events-none" />
+
+              {/* Slider Controls */}
+              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                <div>
+                  <p className="text-white/60 text-sm uppercase tracking-wider mb-1">Featured Facility</p>
+                  <p className="text-white font-display text-xl">{sliderImages[activeIndex].title}</p>
+                </div>
+
+                <div className="flex gap-2">
+                  {sliderImages.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveIndex(idx)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${activeIndex === idx ? 'w-8 bg-primary-500' : 'w-2 bg-white/30 hover:bg-white/50'
+                        }`}
+                      aria-label={`Go to slide ${idx + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
       </div>
     </section>
   )
@@ -181,6 +229,23 @@ function ParkingIcon(props) {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
       <rect x="3" y="3" width="18" height="18" rx="3" />
       <path d="M9 17V7h4a3 3 0 010 6H9" />
+    </svg>
+  )
+}
+
+function SecurityIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  )
+}
+
+function ConciergeIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" {...props}>
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+      <circle cx="12" cy="7" r="4" />
     </svg>
   )
 }
