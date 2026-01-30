@@ -1,10 +1,10 @@
 /**
  * Hero Section
- * Optimized for mobile with background image slider and reduced motion
+ * Video background for desktop, image fallback for mobile
  */
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import hotelBuilding from '../assets/hotel-building.jpg'
 import hotelRoom from '../assets/hotel-room.jpg'
 
@@ -35,7 +35,10 @@ const particles = Array.from({ length: 20 }, (_, i) => ({
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [videoLoaded, setVideoLoaded] = useState(false)
+  const videoRef = useRef(null)
 
+  // Image slider for fallback
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % images.length)
@@ -45,35 +48,53 @@ export default function Hero() {
 
   return (
     <section className="relative h-[68vh] md:h-[78vh] flex items-center justify-center overflow-hidden bg-secondary-950">
-      {/* ============ SHARED BACKGROUND - Image Slider ============ */}
+      {/* ============ VIDEO BACKGROUND (Desktop) ============ */}
       <div className="absolute inset-0 overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ scale: 1.1, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: 'easeOut' }}
-            className="absolute inset-0"
-          >
-            <motion.img
-              src={images[currentIndex]}
-              alt={`Riverside Suites Background ${currentIndex + 1}`}
-              className="w-full h-full object-cover object-center"
-              animate={{
-                scale: [1, 1.05],
-                x: [0, -10],
-                y: [0, -5],
-              }}
-              transition={{
-                duration: 8,
-                repeat: Infinity,
-                repeatType: 'reverse',
-                ease: 'linear',
-              }}
-            />
-          </motion.div>
-        </AnimatePresence>
+        {/* Video - Commercial (muted, autoplay, loop) */}
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          onLoadedData={() => setVideoLoaded(true)}
+          className="hidden md:block absolute inset-0 w-full h-full object-cover"
+          poster={hotelBuilding}
+        >
+          {/* Cloudinary hosted commercial video */}
+          <source src="https://res.cloudinary.com/ddlggvxue/video/upload/commercial_qbjo23.mp4" type="video/mp4" />
+        </video>
+
+        {/* Image Fallback (Mobile or when video not loaded) */}
+        <div className={`md:hidden absolute inset-0 ${videoLoaded ? 'md:opacity-0' : ''}`}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentIndex}
+              initial={{ scale: 1.1, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5, ease: 'easeOut' }}
+              className="absolute inset-0"
+            >
+              <motion.img
+                src={images[currentIndex]}
+                alt={`Riverside Suites Background ${currentIndex + 1}`}
+                className="w-full h-full object-cover object-center"
+                animate={{
+                  scale: [1, 1.05],
+                  x: [0, -10],
+                  y: [0, -5],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  repeatType: 'reverse',
+                  ease: 'linear',
+                }}
+              />
+            </motion.div>
+          </AnimatePresence>
+        </div>
 
         {/* Gradient Overlays */}
         <div className="absolute inset-0 bg-gradient-to-b from-secondary-950/70 via-secondary-950/40 to-secondary-950/90" />

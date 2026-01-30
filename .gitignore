@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .vercel
+
+# Large video files - hosted on Cloudinary
+public/videos/

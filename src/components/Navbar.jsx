@@ -11,6 +11,7 @@ import logoMobile from '../assets/logo-mobile.png'
 const navLinks = [
   { label: 'Home', href: '#home' },
   { label: 'Suites', href: '#rooms' },
+  { label: 'ZENRGY Gym', href: '#gym' },
   { label: 'Amenities', href: '#amenities' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'About', href: '#about' },

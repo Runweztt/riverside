@@ -7,6 +7,18 @@ import { motion } from 'framer-motion'
 import { useBooking } from '../../context/BookingContext'
 import { formatCurrency, formatDate } from '../../utils/bookingUtils'
 
+// Dynamic image resolution for Vite
+const getImageUrl = (name) => {
+  if (!name) return ''
+  if (name.startsWith('http')) return name
+  if (name.startsWith('/')) return name
+  try {
+    return new URL(`../../assets/${name}`, import.meta.url).href
+  } catch (e) {
+    return name
+  }
+}
+
 export default function BookingSummary({ onConfirm, showConfirmButton = true }) {
   const { state, computed } = useBooking()
   
@@ -36,7 +48,7 @@ export default function BookingSummary({ onConfirm, showConfirmButton = true }) 
       {hasRoom && (
         <div className="relative h-40">
           <img
-            src={state.selectedRoom.images[0]}
+            src={getImageUrl(state.selectedRoom.images[0])}
             alt={state.selectedRoom.name}
             className="w-full h-full object-cover"
           />

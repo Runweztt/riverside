@@ -8,6 +8,18 @@ import { useBooking } from '../../context/BookingContext'
 import { rooms, roomCategories } from '../../utils/roomsData'
 import { formatCurrency } from '../../utils/bookingUtils'
 
+// Dynamic image resolution for Vite
+const getImageUrl = (name) => {
+  if (!name) return ''
+  if (name.startsWith('http')) return name
+  if (name.startsWith('/')) return name
+  try {
+    return new URL(`../../assets/${name}`, import.meta.url).href
+  } catch (e) {
+    return name
+  }
+}
+
 export default function RoomSelectStep() {
   const { state, actions, computed } = useBooking()
   
@@ -67,9 +79,9 @@ export default function RoomSelectStep() {
               
               <div className="flex gap-4">
                 {/* Image */}
-                <div className="w-24 h-24 md:w-32 md:h-24 rounded-lg overflow-hidden flex-shrink-0">
+                <div className="w-24 h-24 md:w-32 md:h-24 rounded-lg overflow-hidden flex-shrink-0 bg-secondary-100">
                   <img
-                    src={room.images[0]}
+                    src={getImageUrl(room.images[0])}
                     alt={room.name}
                     className="w-full h-full object-cover"
                   />
